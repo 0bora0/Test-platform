@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактиране на профил</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=79387&format=png&color=000000"
+        type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="edit-students.css">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <header class="fixed-top w-100" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <h1 class="h3 text-white">Тестова платформа</h1>
+            <nav class="d-flex align-items-center">
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-white"
+                        id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img id="userImage" src="https://via.placeholder.com/40" alt="Потребител"
+                            class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                        <span id="userName" class="me-2">Зареждане...</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="student-profile.html">Начало</a></li>
+                        <li><a class="dropdown-item" href="index1-students.html">Тестове</a></li>
+                        <li><a class="dropdown-item" href="user-students.html">Регистрирани потребители</a></li>
+                        <li><a class="dropdown-item" href="edit-students.html">Редактиране на профил</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="login.html" id="logout">Изход</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main id="profile-container">
+        <div class="profile-section">
+            <div class="profile-image">
+                <img src="https://img.freepik.com/free-vector/content-creator-editing-video-footage-studio-editor-publishing-viral-video-social-media-multimedia-production-flat-vector-illustration-motion-design-concept-banner-landing-web-page_74855-21752.jpg"
+                    alt="Profile Illustration">
+            </div>
+            <div class="profile-form">
+                <h3 class="text-center mb-5">Редактиране на профил</h3>
+                <form id="editProfileForm">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input type="text" id="firstName" class="form-control" placeholder="Име" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input type="text" id="lastName" class="form-control" placeholder="Фамилия" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                        <input type="text" id="username" class="form-control" placeholder="Потребителско име" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        <input type="email" id="email" class="form-control" placeholder="Имейл" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input type="password" id="password" class="form-control" placeholder="Парола" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Запази промените</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container text-center">
+            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
+            <hr class="my-3"
+                style="border: 0; height: 3px; background: linear-gradient(135deg, #010e1c 0%, #013722 100%);">
+            <div>
+                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-instagram fs-2"></i>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-facebook fs-2"></i>
+                </a>
+                <a href="https://www.linkedin.com" target="_blank" class="text-white">
+                    <i class="bi bi-linkedin fs-2"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Успешна редакция!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Вие успешно редактирахте профила си!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Затвори</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Грешка при редакция!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Моля, проверете данните и след това продължете с редактирането!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="edit-students.js"></script>
+    <script type="module">
+        import { enforcePageAccess } from "./role-guard.js";
+        enforcePageAccess();
+    </script>
+    <script src="loader.js" type="module">
+        import { withLoader } from './loader.js';
+        withLoader(fetchData);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оценки на студенти</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=52234&format=png&color=000000"
+        type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="grades.css">
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+    <header class="fixed-top w-100" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <h1 class="h3 text-white">Тестова платформа</h1>
+            <nav class="d-flex align-items-center">
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-white"
+                        id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img id="userImage" src="https://via.placeholder.com/40" alt="Потребител"
+                            class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                        <span id="userName" class="me-2">Зареждане...</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="profile.html">Начало</a></li>
+                        <li><a class="dropdown-item" href="index1.html">Тестове</a></li>
+                        <li><a class="dropdown-item" href="users.html">Регистрирани потребители</a></li>
+                        <li><a class="dropdown-item" href="edit.html">Редактиране на профил</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="login.html" id="logout">Изход</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="container mt-5 pt-5 flex-grow-1">
+        <div id="loader"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1050; text-align: center;">
+            <div
+                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 1.5rem;">
+                <div class="spinner-border" role="status" style="margin-bottom: 10px;"></div>
+                <div>Моля, почакайте...</div>
+            </div>
+        </div>
+        <div id="successAlert" class="alert alert-success" role="alert" style="display: none;">
+            Оценките бяха успешно добавени!
+            <button type="button" class="close" aria-label="Close" onclick="closeAlert('successAlert')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div id="dangerAlert" class="alert alert-danger" role="alert" style="display: none;">
+            Грешка при добавянето на оценки!
+            <button type="button" class="close" aria-label="Close" onclick="closeAlert('dangerAlert')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <h2 class="mb-4 text-success text-center">Резултати от тестовете</h2>
+        <div class="text-center"><button id="export" class="btn btn-success text-center mt-3 mb-3">Експорт в
+                Excel</button>
+            <button id="save" class="btn btn-primary text-center mt-3 mb-3"> Запази промените</button>
+            <button id="showHide" class="btn btn-danger mt-3 text-center mb-3">Покажи оценените студенти</button>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover text-center" id="mainTableContainer">
+                <thead>
+                    <tr>
+                        <th>Профилна снимка</th>
+                        <th>Име</th>
+                        <th>Фамилия</th>
+                        <th>Имейл</th>
+                        <th>Резултат от теста</th>
+                        <th>Текущ контрол</th>
+                        <th>Общо точки</th>
+                        <th>Оценка</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTableBody">
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover text-center d-none" id="archivedTableContainer">
+                <thead>
+                    <tr>
+                        <th>Профилна снимка</th>
+                        <th>Име</th>
+                        <th>Фамилия</th>
+                        <th>Имейл</th>
+                        <th>Изпит и текущ контрол</th>
+                        <th>Текущ контрол</th>
+                        <th>Общо</th>
+                        <th>Оценка</th>
+                    </tr>
+                </thead>
+                <tbody id="archivedTableBody">
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container text-center">
+            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
+            <hr class="my-3"
+                style="border: 0; height: 3px; background: linear-gradient(135deg, #010e1c 0%, #013722 100%);">
+            <div>
+                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-instagram fs-2"></i>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-facebook fs-2"></i>
+                </a>
+                <a href="https://www.linkedin.com" target="_blank" class="text-white">
+                    <i class="bi bi-linkedin fs-2"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="./grades.js"></script>
+    <script type="module">
+        import { enforcePageAccess } from "./role-guard.js";
+        enforcePageAccess();
+    </script>
+    <script type="module">
+        import { withLoader } from './loader.js';
+        withLoader(fetchData);  
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js"></script>
+</body>
+
+</html>

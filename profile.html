@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Начална страница</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="profile.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEJ2QJ7lXOTOk3vYft3sZj/dW9v/RkG8D9r6uE6xwQGJ7A1RV2mRtv1FPV+8J" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=52234&format=png&color=000000"
+        type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <header class="fixed-top w-100" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <h1 class="h3 text-white">Тестова платформа</h1>
+            <nav class="d-flex align-items-center">
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-white"
+                        id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img id="userImage" src="https://via.placeholder.com/40" alt="Потребител"
+                            class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                        <span id="userName" class="me-2">Зареждане...</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="profile.html">Начало</a></li>
+                        <li><a class="dropdown-item" href="index1.html">Тестове</a></li>
+                        <li><a class="dropdown-item" href="users.html">Регистрирани потребители</a></li>
+                        <li><a class="dropdown-item" href="edit.html">Редактиране на профил</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="login.html" id="logout">Изход</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mt-5 pt-5">
+        <section class="row g-4 mb-4">
+            <div class="col-md-4 col-sm-6">
+                <div class="card-dashboard card-users p-3 text-white rounded shadow-lg"
+                    style="background-color: #007bff;">
+                    <h3 class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">Общо потребители
+                    </h3>
+                    <p id="userCount" class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">
+                        Loading...</p>
+                    <i class="fas fa-users fa-3x text-white animate__animated animate__bounceIn"></i>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card-dashboard card-users p-3 text-white rounded shadow-lg"
+                    style="background-color: #4fdea5;">
+                    <h3 class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">Общо оценки</h3>
+                    <p id="gradeCount" class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">
+                        Loading...</p>
+                    <i class="fas fa-scroll fa-3x text-white animate__animated animate__bounceIn"></i>
+
+
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card-dashboard card-users p-3 text-white rounded shadow-lg"
+                    style="background-color: #68dc41;">
+                    <h3 class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">Резултати</h3>
+                    <p id="resultCount" class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">
+                        Loading...</p>
+                    <i class="fas fa-trophy fa-3x text-white animate__animated animate__bounceIn"></i>
+
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card-dashboard card-students p-3 text-white rounded shadow-lg"
+                    style="background-color: #a728a5;">
+                    <h3 class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">Студенти</h3>
+                    <p id="studentCount" class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">
+                        Loading...</p>
+                    <i class="fas fa-user-graduate fa-3x text-white animate__animated animate__bounceIn"></i>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card-dashboard card-average p-3 text-white rounded shadow-lg"
+                    style="background-color: #ffc107;">
+                    <h3 class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">Потребители с
+                        пълни права</h3>
+                    <p id="averageScore" class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">
+                        Loading...</p>
+                    <i class="fas fa-user-shield fa-3x text-white animate__animated animate__bounceIn"></i>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card-dashboard card-tests p-3 text-white rounded shadow-lg"
+                    style="background-color: #17a2b8;">
+                    <h3 class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">Общо въпроси</h3>
+                    <p id="testCount" class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">
+                        Loading...</p>
+                    <i class="fas fa-question-circle fa-3x text-white animate__animated animate__bounceIn"></i>
+                </div>
+            </div>
+        </section>
+
+        <section id="welcome" class="text-center mb-4">
+            <h2 class="animate__animated animate__fadeIn animate__delay-1s">Добре дошли в профила си!</h2>
+        </section>
+
+        <section id="profile-container" class="container mt-2 pt-5 animate__animated animate__fadeIn mb-5">
+            <div class="row g-5">
+                <div class="col-md-5 col-12 d-flex justify-content-center align-items-center">
+                    <div class="image-wrapper shadow-lg rounded-lg overflow-hidden">
+                        <img src="https://img.freepik.com/free-vector/happy-student-concept-illustration_114360-8328.jpg"
+                            alt="Profile Image" class="img-fluid profile-image transition-all">
+                    </div>
+                </div>
+
+                <div class="col-md-7 col-12 d-flex flex-column justify-content-center">
+                    <div class="operations-container shadow-lg rounded-lg p-4 bg-white">
+                        <h2 class="text-center text-primary mb-4 animate__animated animate__fadeInUp">Вашите Операции
+                        </h2>
+
+                        <div class="list-group">
+                            <a href="add_question.html"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                <span class="fs-5 text-center">Добавяне на въпрос</span>
+                                <i class="fas fa-plus-circle fs-3"></i>
+                            </a>
+                            <p class="operation-description">Добавете нови въпроси към тестовете, които ще бъдат
+                                използвани за проверка на знанията на студентите.</p>
+                                <a href="settings.html"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                <span class="fs-5 text-center">Настройки и наблюдения върху теста</span>
+                                <i class="fas fa-solid fa-gears"></i>
+                            </a>
+                            <p class="operation-description">Можете да наблюдавате тестовете на учениците/студентите в реално време, както и да преглеждате резултатите им.</p>
+                            <a href="edit.html"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                <span class="fs-5 text-center">Редактиране на профил</span>
+                                <i class="fas fa-user-edit fs-3"></i>
+                            </a>
+                            <p class="operation-description">Променете информацията в профила си, като например името,
+                                потребителското име, паролата и настройките за конфиденциалност.</p>
+
+                            <a href="users.html"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                <span class="fs-5 text-center">Регистрирани потребители</span>
+                                <i class="fas fa-users fs-3"></i>
+                            </a>
+                            <p class="operation-description">Прегледайте списъка с всички потребители, които са се
+                                регистрирали на платформата.</p>
+
+                            <a href="index1.html"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                <span class="fs-5 text-center">Стартиране на тест</span>
+                                <i class="fas fa-play-circle fs-3"></i>
+                            </a>
+                            <p class="operation-description">Започнете тест, за да проверите знанията си
+                                по конкретни теми.</p>
+
+                            <a href="grades.html"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                <span class="fs-5 text-center">Оценка на потребителите</span>
+                                <i class="fas fa-star fs-3"></i>
+                            </a>
+                            <p class="operation-description">Оценявайте потребителите въз основа на техните резултати от
+                                тестовете.</p>
+
+                            <a href="preview.html"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                <span class="fs-5 text-center">Крайни резултати</span>
+                                <i class="fas fa-star fs-3"></i>
+                            </a>
+                            <p class="operation-description">В тази секция може да прегледате опитите от тестовете на студентите, които са получили крайна оценка.</p>
+
+                            <a href="edit_question.html"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                <span class="fs-5 text-center">Редактиране на въпрос</span>
+                                <i class="fas fa-user-edit fs-3"></i>
+                            </a>
+                            <p class="operation-description">С тази операция може да редактирате даден въпрос от банката с въпроси и след запазването на промените, въпросът ще бъде редактиран в базата данни.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container text-center">
+            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
+            <hr class="my-3"
+                style="border: 0; height: 3px; background: linear-gradient(135deg, #010e1c 0%, #013722 100%);">
+            <div>
+                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-instagram fs-2"></i>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-facebook fs-2"></i>
+                </a>
+                <a href="https://www.linkedin.com" target="_blank" class="text-white">
+                    <i class="bi bi-linkedin fs-2"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script type="module">
+        import { enforcePageAccess } from "./role-guard.js";
+        enforcePageAccess();
+    </script>
+    <script type="module" src="profile.js"></script>
+    <script src="loader.js" type="module">
+        import { withLoader } from './loader.js';
+        withLoader(fetchData);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

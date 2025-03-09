@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактиране на въпрос</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=52234&format=png&color=000000"
+        type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="edit_question.css">
+</head>
+
+<body class="d-flex flex-column" style="min-height: 100vh;">
+    <header class="fixed-top w-100" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <h1 class="h3 text-white">Тестова платформа</h1>
+            <nav class="d-flex align-items-center">
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-white"
+                        id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img id="userImage" src="https://via.placeholder.com/40" alt="Потребител"
+                            class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                        <span id="userName" class="me-2">Зареждане...</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="profile.html">Начало</a></li>
+                        <li><a class="dropdown-item" href="index1.html">Тестове</a></li>
+                        <li><a class="dropdown-item" href="users.html">Регистрирани потребители</a></li>
+                        <li><a class="dropdown-item" href="edit.html">Редактиране на профил</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="login.html" id="logout">Изход</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="container mt-5 pt-5 flex-grow-1">
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert"
+            style="display: none;">
+            Промените бяха успешно запазени!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Затвори"></button>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert" style="display: none;">
+            Възникна грешка при обновяването на банката с въпроси!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Затвори"></button>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-dark">Банка с въпроси</h2>
+            <button id="save" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
+                Запазване на промените
+            </button>
+        </div>
+        <table class="table table-bordered table-hover" id="questionsTable">
+            <thead>
+                <tr>
+                    <th>Въпрос</th>
+                    <th>Опция 1</th>
+                    <th>Опция 2</th>
+                    <th>Опция 3</th>
+                    <th>Опция 4</th>
+                    <th>Правилен отговор</th>
+                </tr>
+            </thead>
+            <tbody id="questionsTableBody"></tbody>
+        </table>
+    </main>
+    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container text-center">
+            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
+            <hr class="my-3"
+                style="border: 0; height: 3px; background: linear-gradient(135deg, #010e1c 0%, #013722 100%);">
+            <div>
+                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-instagram fs-2"></i>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-facebook fs-2"></i>
+                </a>
+                <a href="https://www.linkedin.com" target="_blank" class="text-white">
+                    <i class="bi bi-linkedin fs-2"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="edit_question.js"></script>
+    <script type="module">
+        import { enforcePageAccess } from "./role-guard.js";
+        enforcePageAccess();
+    </script>
+    <script src="loader.js" type="module">
+        import { withLoader } from './loader.js';
+        withLoader(fetchData);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

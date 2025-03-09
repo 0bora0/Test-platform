@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Настройки на теста</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    .ai-button {
+        background: linear-gradient(45deg, #EEB14F, #E89052, #E86863, #D0CAC3, #EA5A92, #E87AD1, #CF9AF9, #71B0F7, #81C4EE, #E95275, #E6BC86);
+        color: white;
+    }
+</style>
+<header class="fixed-top w-100" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+    <div class="container d-flex justify-content-between align-items-center py-3">
+        <h1 class="h3 text-white">Тестова платформа</h1>
+        <nav class="d-flex align-items-center">
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-white"
+                    id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img id="userImage" src="https://via.placeholder.com/40" alt="Потребител"
+                        class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                    <span id="userName" class="me-2">Зареждане...</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="profile.html">Начало</a></li>
+                    <li><a class="dropdown-item" href="index1.html">Тестове</a></li>
+                    <li><a class="dropdown-item" href="users.html">Регистрирани потребители</a></li>
+                    <li><a class="dropdown-item" href="edit.html">Редактиране на профил</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item text-danger" href="login.html" id="logout">Изход</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+<body class="container mt-5">
+    <h1 class="text-center">Настройки на теста</h1>
+    <form id="test-settings-form" class="mt-4">
+        <div class="mb-3">
+            <label for="discipline" class="form-label">Дисциплина:</label>
+        <select name="" id="course" class="form-select">
+            <option value="">--Избери дисциплина--</option>
+        </select>
+        </div>
+        <div class="mb-3">
+            <label for="questionBank" class="form-label">Избери банка с въпроси:</label>
+        <select name="" id="questionBank" class="form-select">
+            <option value="">--Избери банка с въпроси--</option>
+        </select>
+        </div>
+        <div class="mb-3">
+            <label for="testType" class="form-label">Вид:</label>
+            <select name="testType" id="testType" class="form-select">
+                <option value="">--Избери вид на теста--</option>
+                <option value="1">Семестриален контрол</option>
+                <option value="2">Редовна изпитна сесия</option>
+                <option value="3">Индивидуален протокол</option>
+                <option value="4">Ликвидационна сесия</option>
+                <option value="5">Практически вид</option>
+                <option value="6">Повишителна сесия</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="questionCount" class="form-label">Брой въпроси:</label>
+            <input type="number" id="questionCount" class="form-control" min="1" required>
+        </div>
+        <div class="mb-3">
+            <label for="testDuration" class="form-label">Продължителност на теста (минути):</label>
+            <input type="number" id="testDuration" class="form-control" min="1" required>
+        </div>
+        <div class="mb-3">
+            <label for="passingScore" class="form-label">Крайна оценка за преминаване (в %):</label>
+            <input type="number" id="passingScore" class="form-control" min="1" max="100" required>
+        </div>
+        <!-- Избор на потребители -->
+        <div class="mb-3">
+            <label class="form-label">Избери потребител за теста:</label>
+            <select id="userSelect" class="form-select">
+                <option value="">Зареждане...</option>
+            </select>
+            <button type="button" id="addUser" class="btn btn-success mt-2">Добави</button>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Разрешени потребители:</label>
+            <ul id="allowedUsersList" class="list-group"></ul>
+        </div>
+        <!-- Избор на въпроси -->
+        <div class="mb-3">
+            <label class="form-label">Избери въпроси за теста:</label>
+            <select id="questionSelect" class="form-select">
+                <option value="">Зареждане...</option>
+            </select>
+            <button type="button" id="addQuestion" class="btn btn-success mt-2">Добави</button>
+            <button type="button" id="randomQuestions" class="btn btn-secondary mt-2"><i class="bi bi-shuffle"> Лотариен принцип</i></button>
+            <button class="ai-button btn btn-secondary mt-2 position-relative" id="generateAI">
+                Генериране на въпроси с AI
+            </button>
+            <!-- Контейнер за въпросите (акордеон) -->
+<div class="accordion mt-4 border rounded shadow-sm p-3 bg-light" id="selectedQuestionsList"></div>
+
+
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Избрани въпроси:</label>
+            <ul id="selectedQuestionsList" class="list-group"></ul>
+        </div>
+        <button type="submit" class="btn btn-primary">Запази настройки</button>
+    </form>
+    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container text-center">
+            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
+            <hr class="my-3"
+                style="border: 0; height: 3px; background: linear-gradient(135deg, #010e1c 0%, #013722 100%);">
+            <div>
+                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-instagram fs-2"></i>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-facebook fs-2"></i>
+                </a>
+                <a href="https://www.linkedin.com" target="_blank" class="text-white">
+                    <i class="bi bi-linkedin fs-2"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <!-- Модален прозорец за информация за потребителя -->
+    <div class="modal fade" id="userInfoModal" tabindex="-1" aria-labelledby="userInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userInfoModalLabel">Информация за потребителя</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalUserImage" src="https://placehold.co/150x100" alt="Профилна снимка" class="img-fluid rounded-circle mb-3" style="max-width: 150px;">
+                    <h5 id="modalUserName" class="fw-bold"></h5>
+                    <p><strong>Имейл:</strong> <span id="modalUserEmail"></span></p>
+                    <p><strong>Роля:</strong> <span id="modalUserRole"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Затвори</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- AI Модален прозорец -->
+    <div class="modal fade" id="aiModal" tabindex="-1" aria-labelledby="aiModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aiModalLabel">Генериране на въпроси с AI</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="aiPrompt" class="form-label">Опишете темата на въпросите:</label>
+                    <textarea id="aiPrompt" class="form-control" rows="3" placeholder="Например: История на България"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Затвори</button>
+                    <button type="button" id="generateQuestions" class="btn btn-primary">Генерирай</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="settings.js"></script>
+</body>
+</html>

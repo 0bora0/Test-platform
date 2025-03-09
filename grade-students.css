@@ -1,0 +1,35 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes rowHighlight {
+    from {
+        background-color: #f8f9fa;
+    }
+
+    to {
+        background-color: #e3f2fd;
+    }
+}
+
+tbody tr {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+thead th {
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+thead th:hover {
+    background-color: #185a9d;
+    color: white;
+    transform: scale(1.05);
+}

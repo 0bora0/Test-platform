@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Наблюдение на тестовете</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js"></script>
+</head>
+<body class="container mt-5">
+    <div class="container mt-4">
+        <h2 class="mb-3">Ненаправени тестове</h2>
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Профилна снимка</th>
+                    <th>Име</th>
+                    <th>Фамилия</th>
+                    <th>Дисциплина</th>
+                    <th>Брой въпроси</th>
+                    <th>Оставащо време</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody id="usersTableBody">
+                <!-- Данните ще бъдат заредени тук динамично -->
+            </tbody>
+        </table>
+    </div>
+<!-- ✅ Вградена Firebase SDK -->
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js"></script>
+
+<script type="module" src="admin.js"></script>
+
+    
+</body>
+</html>

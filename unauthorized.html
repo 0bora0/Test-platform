@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отказан достъп</title>
+    <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=oJI0cnStY7p0&format=png&color=000000"
+        type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<style>
+    header {
+        background: linear-gradient(135deg, #034687 0%, #00c379 100%);
+        padding: 1rem 0;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+        margin: 0;
+    }
+
+    header a {
+        font-size: 1rem;
+        color: white;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    header a:hover {
+        color: #d4edda;
+    }
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="text-white"><a href="login.html" class="fs-4">Тестова платформа</a></h1>
+        </div>
+    </header>
+    <div class="alert alert-danger mt-3 mx-5 text-center fs-3" role="alert">
+        Нямате нужните права за достъп до избрания ресурс! Моля, свържете се с администратора на платформата!
+    </div>
+    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container text-center">
+            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
+            <hr class="my-3"
+                style="border: 0; height: 3px; background: linear-gradient(135deg, #010e1c 0%, #013722 100%);">
+            <div>
+                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-instagram fs-2"></i>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-facebook fs-2"></i>
+                </a>
+                <a href="https://www.linkedin.com" target="_blank" class="text-white">
+                    <i class="bi bi-linkedin fs-2"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script src="loader.js" type="module">
+        import { withLoader } from './loader.js';
+        withLoader(fetchData);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

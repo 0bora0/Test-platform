@@ -1,0 +1,44 @@
+.screen-container {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+.screen-container.show {
+    opacity: 1;
+}
+.fadeIn {
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+.btn {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: bold;
+    border-radius: 30px;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #034687 0%, #00c379 100%);
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+input:focus{
+    box-shadow: 0 0 5px rgba(0, 195, 121, 0.5);
+    border: #00c379;
+}
+@media (max-width: 768px) {
+    .form-control, .btn {
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    .screen-container {
+        width: 90% !important;
+    }
+}

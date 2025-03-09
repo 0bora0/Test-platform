@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    transition: color 0.3s ease;
+}
+
+h2:hover {
+    color: #00c379;
+}
+
+table {
+    transition: all 0.3s ease;
+}
+
+table:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+table {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

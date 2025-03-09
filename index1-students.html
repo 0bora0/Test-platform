@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестова платформа</title>
+    <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=11225&format=png&color=000000"
+        type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="index1-students.css">
+</head>
+
+<body class="d-flex flex-column" style="min-height: 100vh;">
+    <header class="fixed-top w-100" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <h1 class="h3 text-white">Тестова платформа</h1>
+            <nav class="d-flex align-items-center">
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-white"
+                        id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img id="userImage" src="https://via.placeholder.com/40" alt="Потребител"
+                            class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                        <span id="userName" class="me-2">Зареждане...</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="student-profile.html">Начало</a></li>
+                        <li><a class="dropdown-item" href="index1-students.html">Тестове</a></li>
+                        <li><a class="dropdown-item" href="user-students.html">Регистрирани потребители</a></li>
+                        <li><a class="dropdown-item" href="edit-students.html">Редактиране на профил</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="login.html" id="logout">Изход</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="container mt-5 pt-5 flex-grow-1 d-flex flex-column align-items-center">
+        <div id="start-screen" class="screen-container text-center p-5 rounded shadow-lg w-75 mb-5 fadeIn">
+            <h2 class="mb-4 text-primary animate__animated animate__fadeIn">Започнете вашия тест</h2>
+            <div class="mb-3">
+                <label for="questionCount" class="form-label">Брой въпроси:</label>
+                <input type="number" id="questionCount" class="form-control w-50 mx-auto" min="2" required>
+            </div>
+            <p id="availableQuestions" class="text-muted d-none">Изберете от въпроси за генериране</p>
+            <button id="start" class="btn btn-primary mt-3 px-4 py-2">Проверка и старт</button>
+        </div>
+
+        <!-- Test Screen -->
+        <div id="test-screen" class="screen-container text-center p-5 rounded shadow-lg w-100 mb-5 fadeIn"
+            style="display: none; max-width: 900px;">
+            <h3 id="question" class="text-primary mb-4 fw-bold fs-2"></h3>
+            <div id="options" class="mb-3 fs-4"></div>
+            <div class="container mt-4">
+                <div class="row g-2 align-items-center">
+                    <div class="col-12 col-md-3 d-flex justify-content-md-start justify-content-center">
+                        <button id="prev" class="btn btn-secondary w-100">Предишен</button>
+                    </div>
+                    <div class="col-12 col-md-6 d-flex justify-content-center">
+                        <div id="pagination" class="d-flex flex-wrap justify-content-center"></div>
+                    </div>
+                    <div class="col-12 col-md-3 d-flex justify-content-md-end justify-content-center">
+                        <button id="next" class="btn btn-primary w-100">Следващ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Screen -->
+        <div id="end-screen" class="screen-container text-center p-5 rounded shadow-lg w-75 mb-5 fadeIn"
+            style="display: none;">
+            <h2 class="mb-4 text-danger animate__animated animate__fadeIn">Тестът приключи!</h2>
+            <p id="final-score" class="h4 text-success animate__animated animate__fadeIn mb-4"></p>
+            <button id="restart" class="btn btn-secondary mt-3 px-4 py-2">Рестартирай</button>
+            <button id="preview" class="btn btn-secondary mt-3 px-4 py-2">Преглед на опита</button>
+        </div>
+
+        <!-- Preview Section -->
+        <div id="previewSection" class="screen-container text-center p-5 rounded shadow-lg w-100 mb-5 fadeIn"
+        style="display: none; max-width: 900px;">
+        <div id="question-preview" class="text-primary mb-3"></div>
+        <div id="options-preview" class="mb-3"></div>
+        <div id="pagination-preview" class="d-flex flex-wrap justify-content-center mt-4"></div>
+        <div class="row g-2 align-items-center">
+            <div class="col-12 col-md-4 d-flex justify-content-md-start justify-content-center">
+                <button id="prev-preview" class="btn btn-secondary w-100">Предишен</button>
+            </div>
+            <div class="col-12 col-md-4 d-flex justify-content-center">
+                <button id="next-preview" class="btn btn-primary w-100">Следващ</button>
+            </div>
+            <div class="col-12 col-md-4 d-flex justify-content-md-end justify-content-center">
+                <button id="closePreview" class="btn btn-secondary w-100">Затвори прегледа</button>
+            </div>
+        </div>
+    </div>
+    </main>
+    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container text-center">
+            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
+            <hr class="my-3"
+                style="border: 0; height: 3px; background: linear-gradient(135deg, #010e1c 0%, #013722 100%);">
+            <div>
+                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-instagram fs-2"></i>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-facebook fs-2"></i>
+                </a>
+                <a href="https://www.linkedin.com" target="_blank" class="text-white">
+                    <i class="bi bi-linkedin fs-2"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Неуспешно генериране на въпроси</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    В базата данни не съществуват толкова въпроси. Моля, изберете по-малко въпроси!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="errorModal1" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModal1Label">Неуспешно генериране на въпроси</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Моля, въведете валиден брой въпроси, които искате да се генерират!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Сигурни ли сте, че искате да стартирате теста?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Натиснете старт, за да започнете вашият изпит! Успех!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Започване на теста</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="successModal1" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModal1Label">Предаване на опита?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Сигурни ли сте, че искате да приключите опита?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="viewResult">Приключване на
+                        опита и предаване</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+    <script type="module">
+        import { enforcePageAccess } from "./role-guard.js";
+        enforcePageAccess();
+    </script>
+    <script src="loader.js" type="module">
+        import { withLoader } from './loader.js';
+        withLoader(fetchData);
+    </script>
+    
+    <script type="module" src="index1-students.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

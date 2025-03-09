@@ -1,0 +1,82 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #034687;
+}
+
+table {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+table th, table td {
+    padding: 12px 20px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table th {
+    background-color: #034687;
+    color: white;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table tbody tr:hover {
+    background-color: #e9f7ef;
+}
+
+.alert {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 20px;
+    margin-bottom: 2rem;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #034687 0%, #00c379 100%);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #028d64;
+    border-color: #028d64;
+    transform: scale(1.05);
+}
+
+.fadeIn {
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .table th, .table td {
+        padding: 8px 12px;
+    }
+
+    .btn-success {
+        width: 100%;
+    }
+}

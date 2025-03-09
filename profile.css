@@ -1,0 +1,119 @@
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    margin-bottom: 15px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    border: 2px solid transparent;
+    color: #495057;
+  }
+  .list-group-item:hover {
+    background-color: #007bff;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    border: 2px solid #ffffff;
+  }
+
+  .list-group-item i {
+    font-size: 1.6rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .list-group-item:hover i {
+    transform: translateX(5px);
+  }
+  
+  a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out, text-decoration 0.3s ease;
+  }
+  
+  a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+  .operation-description a {
+    color: #007bff;
+    font-weight: bold;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+  }
+  
+  .operation-description a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+
+  .operation-description {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f1f3f5;
+    border-left: 4px solid #007bff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .operation-description:hover {
+    background-color: #e9ecef;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  .operation-description:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+  }
+  
+  .list-group-item:hover .operation-description {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @keyframes fadeInDescription {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .operation-description {
+    animation: fadeInDescription 1s ease-in-out forwards;
+  }
+  
+  .operation-description a {
+    font-weight: bold;
+    color: #007bff;
+    transition: color 0.3s ease-in-out, text-decoration 0.3s ease-in-out;
+  }
+  
+  .operation-description a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 767px) {
+    .list-group-item {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .operation-description {
+      font-size: 0.9rem;
+      text-align: center;
+    }
+  }
+  

@@ -1,0 +1,45 @@
+body {
+    color: #fff;
+}
+main {
+    animation: fadeIn 1.2s ease;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+table {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+thead th {
+    background: #2575fc;
+    color: #fff;
+    text-align: center;
+}
+tbody td {
+    text-align: center;
+}
+.btn-primary {
+    background: linear-gradient(135deg, #034687 0%, #00c379 100%);
+    transition: background-color 0.3s ease;
+}
+.btn-primary:hover {
+    background-color: #6a11cb;
+    border-color: #6a11cb;
+}
+.alert {
+    animation: fadeIn 0.8s ease;
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
