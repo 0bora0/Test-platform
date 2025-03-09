@@ -62,7 +62,6 @@ The platform utilizes **Firebase Firestore** as its database. The key collection
 ## 🛠️ Installation & Setup
 ### **1. Clone the repository**
 ```sh
-git clone https://github.com/your-repo/test-platform.git
 cd test-platform
 ```
 
