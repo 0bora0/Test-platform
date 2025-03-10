@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getFirestore, collection, getDocs, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
-import { signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyCR-nsO0Eibf9Fmba6zp0IeyNTiZ1YTNHQ",
     authDomain: "testcenter-2025.firebaseapp.com",
@@ -10,151 +9,151 @@ const firebaseConfig = {
     messagingSenderId: "446759343746",
     appId: "1:446759343746:web:9025b482329802cc34069b",
     measurementId: "G-0K3X6WSL09"
-  };
-  
+};
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const auth = getAuth();
-
-const userNameElement = document.getElementById('userName');
-const userImageElement = document.getElementById('userImage');
-const logoutButton = document.getElementById('logout');
-function displayUserInfo() {
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            try {
-                const userDoc = await getDoc(doc(db, "users", user.uid)); 
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    const firstName = userData.firstName || "Име";
-                    const lastName = userData.lastName || "Фамилия";
-                    const profilePic = userData.profilePic || "https://via.placeholder.com/40";
-
-                    const fullName = firstName && lastName 
-                        ? firstName + ' ' + lastName 
-                        : user.email;
-
-                    userNameElement.textContent = fullName;
-                    userImageElement.src = profilePic; // Използване на Base64 снимка
-                } else {
-                    userNameElement.textContent = user.email;
-                    userImageElement.src = "https://via.placeholder.com/40";
-                }
-
-                logoutButton.style.display = 'block';
-            } catch (error) {
-                console.error("Грешка при извличане на данни за потребителя:", error);
-            }
-        } else {
-            userNameElement.textContent = "Не сте влезли";
-            userImageElement.src = "https://via.placeholder.com/40";
-            logoutButton.style.display = 'none';
-        }
-    });
-}
-logoutButton?.addEventListener('click', () => {
-    signOut(auth).then(() => {
-        console.log('Потребителят излезе');
-        window.location.href = 'login.html';
-    }).catch((error) => {
-        console.error('Грешка при излизане:', error);
-    });
-});
-displayUserInfo();
 
 const questionsTableBody = document.getElementById("questionsTableBody");
-const getQuestions = async () => {
-    try {
-        const querySnapshot = await getDocs(collection(db, "questions"));
+const disciplineSelect = document.getElementById("disciplineSelect");
+const bankSelect = document.getElementById("bankSelect");
+const saveBtn = document.getElementById("save");
 
-        querySnapshot.forEach((doc) => {
-            const questionData = doc.data();
-            const questionId = doc.id;
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadDisciplines();
+});
 
-            const questionRow = document.createElement("tr");
-            questionRow.innerHTML = `
-                    <td contenteditable="true" class="question-text">${questionData.question}</td>
-                    ${questionData.options
-                    .map(
-                        (option, index) =>
-                            `<td contenteditable="true" class="option" data-index="${index}">${option}</td>`
-                    )
-                    .join("")}
-                    <td>
-                        <select class="form-select correct-answer-select">
-                            ${questionData.options
-                    .map(
-                        (option) =>
-                            `<option value="${option}" ${option === questionData.correctAnswer
-                                ? "selected"
-                                : ""
-                            }>${option}</option>`
-                    )
-                    .join("")}
-                        </select>
-                    </td>
-                `;
-            questionRow.setAttribute("data-id", questionId);
-            questionsTableBody.appendChild(questionRow);
-
-            const optionCells = questionRow.querySelectorAll(".option");
-            optionCells.forEach((optionCell, index) => {
-                optionCell.addEventListener("input", () => {
-                    updateOptionsDropdown(questionRow);
-                });
-            });
-        });
-    } catch (error) {
-        console.error("Грешка при извличането на въпросите: ", error);
-    }
+const loadDisciplines = async () => {
+    const querySnapshot = await getDocs(collection(db, "courses"));
+    disciplineSelect.innerHTML = '<option value="">-- Изберете дисциплина --</option>';
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const option = document.createElement("option");
+        option.value = doc.id;
+        option.textContent = data.disciplineName;
+        disciplineSelect.appendChild(option);
+    });
 };
-const updateOptionsDropdown = (questionRow) => {
-    const options = Array.from(questionRow.querySelectorAll(".option")).map((optionCell) =>
-        optionCell.textContent.trim()
-    );
-    const selectElement = questionRow.querySelector(".correct-answer-select");
-    selectElement.innerHTML = options
-        .map(
-            (option) =>
-                `<option value="${option}">${option}</option>`
-        )
-        .join("");
-};
-document.getElementById("save").addEventListener("click", async () => {
-    let success = true;
-    const rows = questionsTableBody.querySelectorAll("tr");
-    for (let row of rows) {
-        const questionId = row.getAttribute("data-id");
-        const questionText = row.querySelector(".question-text").textContent.trim();
-        const options = Array.from(row.querySelectorAll(".option")).map((optionCell) =>
-            optionCell.textContent.trim()
-        );
-        const correctAnswer = row.querySelector(".correct-answer-select").value;
 
-        try {
-            await updateDoc(doc(db, "questions", questionId), {
-                question: questionText,
-                options: options,
-                correctAnswer: correctAnswer,
+const loadQuestionBanks = async (disciplineId) => {
+    bankSelect.innerHTML = '<option value="">-- Изберете банка --</option>';
+    const disciplineDoc = await getDoc(doc(db, "courses", disciplineId));
+    if (disciplineDoc.exists()) {
+        const disciplineData = disciplineDoc.data();
+        if (disciplineData.questionBanks) {
+            disciplineData.questionBanks.forEach((bank, index) => {
+                const option = document.createElement("option");
+                option.value = index;
+                option.textContent = bank.name;
+                bankSelect.appendChild(option);
             });
-        } catch (error) {
-            console.error("Грешка при актуализирането на въпроса: ", error);
-            success = false;
         }
     }
-    function showAlert(alertId) {
-        const alertElement = document.getElementById(alertId);
-        alertElement.style.display = "block";
-        alertElement.classList.add("show");
-        setTimeout(() => {
-            alertElement.classList.remove("show");
-            alertElement.style.display = "none";
-        }, 3000);
+};
+
+const loadQuestions = async (disciplineId, bankIndex) => {
+    questionsTableBody.innerHTML = "";
+    const disciplineDoc = await getDoc(doc(db, "courses", disciplineId));
+    if (disciplineDoc.exists()) {
+        const disciplineData = disciplineDoc.data();
+        const selectedBank = disciplineData.questionBanks[bankIndex];
+
+        if (selectedBank && selectedBank.questions) {
+            selectedBank.questions.forEach((questionData, qIndex) => {
+                createQuestionRow(disciplineId, bankIndex, qIndex, questionData);
+            });
+        }
     }
-    if (success) {
-        showAlert("successAlert");
-    } else {
-        showAlert("errorAlert");
+};
+
+const createQuestionRow = (disciplineId, bankIndex, qIndex, questionData) => {
+    const questionRow = document.createElement("tr");
+
+    questionRow.innerHTML = `
+        <td class="question-text">${questionData.question}</td>
+        ${questionData.options.map((option, index) => `
+            <td class="option">${option}</td>`).join("")}
+        <td>
+            <select class="form-select correct-answer-select" disabled>
+                ${questionData.options.map(option => `
+                    <option value="${option}" ${option === questionData.correctAnswer ? "selected" : ""}>${option}</option>`).join("")}
+            </select>
+        </td>
+        <td>
+            <button class="btn btn-warning btn-sm edit-question">
+                <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-danger btn-sm delete-question">
+                <i class="bi bi-trash"></i>
+            </button>
+        </td>
+    `;
+
+    questionRow.setAttribute("data-id", `${disciplineId}-${bankIndex}-${qIndex}`);
+    questionsTableBody.appendChild(questionRow);
+    questionRow.querySelector(".edit-question").addEventListener("click", () => {
+        toggleEditMode(questionRow);
+    });
+    questionRow.querySelector(".delete-question").addEventListener("click", () => {
+        questionRow.remove();
+    });
+};
+const toggleEditMode = (row) => {
+    const isEditable = row.querySelector(".question-text").contentEditable === "true";
+    row.querySelector(".question-text").contentEditable = !isEditable;
+    row.querySelectorAll(".option").forEach(optionCell => {
+        optionCell.contentEditable = !isEditable;
+    });
+    const selectElement = row.querySelector(".correct-answer-select");
+    selectElement.disabled = isEditable;
+    row.querySelector(".edit-question").innerHTML = isEditable
+        ? `<i class="bi bi-pencil"></i>`
+        : `<i class="bi bi-check-lg"></i>`;
+};
+saveBtn.addEventListener("click", async () => {
+    const selectedDiscipline = disciplineSelect.value;
+    const selectedBankIndex = parseInt(bankSelect.value);
+    if (!selectedDiscipline || isNaN(selectedBankIndex)) {
+        console.error("Не е избрана дисциплина или банка с въпроси.");
+        return;
+    }
+    const rows = questionsTableBody.querySelectorAll("tr");
+    const updatedQuestions = [];
+    rows.forEach(row => {
+        const questionText = row.querySelector(".question-text").textContent.trim();
+        const options = Array.from(row.querySelectorAll(".option")).map(optionCell => optionCell.textContent.trim());
+        const correctAnswer = row.querySelector(".correct-answer-select").value;
+        updatedQuestions.push({ question: questionText, options, correctAnswer });
+    });
+
+    try {
+        const disciplineDocRef = doc(db, "courses", selectedDiscipline);
+        const disciplineDoc = await getDoc(disciplineDocRef);
+        if (!disciplineDoc.exists()) return;
+
+        let disciplineData = disciplineDoc.data();
+        disciplineData.questionBanks[selectedBankIndex].questions = updatedQuestions;
+
+        await updateDoc(disciplineDocRef, { questionBanks: disciplineData.questionBanks });
+        alert("Промените са запазени успешно!");
+    } catch (error) {
+        console.error("Грешка при запазване на въпросите:", error);
     }
 });
-getQuestions();
+
+disciplineSelect.addEventListener("change", async () => {
+    const selectedDiscipline = disciplineSelect.value;
+    if (selectedDiscipline) {
+        await loadQuestionBanks(selectedDiscipline);
+        questionsTableBody.innerHTML = "";
+    }
+});
+bankSelect.addEventListener("change", async () => {
+    const selectedBankIndex = bankSelect.value;
+    const selectedDiscipline = disciplineSelect.value;
+    if (selectedDiscipline && selectedBankIndex !== "") {
+        await loadQuestions(selectedDiscipline, parseInt(selectedBankIndex));
+    } else {
+        questionsTableBody.innerHTML = "";
+    }
+});
