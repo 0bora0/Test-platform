@@ -71,21 +71,19 @@
 import { getFirestore, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCR-nsO0Eibf9Fmba6zp0IeyNTiZ1YTNHQ",
-    authDomain: "testcenter-2025.firebaseapp.com",
-    projectId: "testcenter-2025",
-    storageBucket: "testcenter-2025.firebasestorage.app",
-    messagingSenderId: "446759343746",
-    appId: "1:446759343746:web:9025b482329802cc34069b",
-    measurementId: "G-0K3X6WSL09"
+  apiKey: "AIzaSyCR-nsO0Eibf9Fmba6zp0IeyNTiZ1YTNHQ",
+  authDomain: "testcenter-2025.firebaseapp.com",
+  projectId: "testcenter-2025",
+  storageBucket: "testcenter-2025.firebasestorage.app",
+  messagingSenderId: "446759343746",
+  appId: "1:446759343746:web:9025b482329802cc34069b",
+  measurementId: "G-0K3X6WSL09"
 };
-
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
-let addedStudents = new Set(); // ✅ Следи кои студенти вече са добавени
+let addedStudents = new Set(); 
 
-// ✅ Функция за зареждане на студенти
 async function loadStudents() {
     const studentSelect = document.getElementById("student-select");
     if (!studentSelect) {
@@ -107,7 +105,7 @@ async function loadStudents() {
             const user = doc.data();
             const option = document.createElement("option");
             option.value = doc.id;
-            option.dataset.userInfo = JSON.stringify(user); // ✅ Запазваме цялата информация за потребителя
+            option.dataset.userInfo = JSON.stringify(user); 
             option.textContent = `${user.firstName} ${user.lastName} (${user.email})`;
             studentSelect.appendChild(option);
         });
@@ -118,10 +116,8 @@ async function loadStudents() {
     }
 }
 
-// ✅ Обработчик за добавяне на студент в списъка
-// Съхранява избраните студенти
 
-const selectedStudents = new Map(); // Съхранява избраните студенти
+const selectedStudents = new Map(); 
 
 document.getElementById("add-student").addEventListener("click", () => {
     const studentSelect = document.getElementById("student-select");
@@ -148,13 +144,11 @@ document.getElementById("add-student").addEventListener("click", () => {
         return;
     }
 
-    // ✅ Добавяме студента в Map
+    
     selectedStudents.set(userId, { ...user, disciplineName, course });
 
-    // ✅ ID за акордеона (по userId)
     const accordionId = `accordion-${userId}`;
 
-    // ✅ Създаваме акордеон за студента
     const studentAccordion = document.createElement("div");
     studentAccordion.classList.add("accordion", "mb-2");
     studentAccordion.innerHTML = `
@@ -187,7 +181,6 @@ document.getElementById("add-student").addEventListener("click", () => {
     console.log(`✅ Добавен: ${user.firstName} ${user.lastName}`);
 });
 
-// ✅ Обработчик за "Създай курс"
 document.getElementById("create-discipline").addEventListener("click", async () => {
     const disciplineName = document.getElementById("discipline-name").value.trim();
     const course = document.getElementById("course-select").value;
@@ -203,10 +196,9 @@ document.getElementById("create-discipline").addEventListener("click", async () 
     }
 
     try {
-        // ✅ Преобразуваме Map в масив
+ 
         const studentsArray = Array.from(selectedStudents.values());
 
-        // ✅ Запазваме в "courses"
         const courseRef = await addDoc(collection(db, "courses"), {
             disciplineName,
             course,

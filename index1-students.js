@@ -1,17 +1,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-
 const firebaseConfig = {
-    apiKey: "AIzaSyCqOBkhYePT5u2O_1xPiMFPo0TakvT2PA8",
-    authDomain: "testcenter-2025feb.firebaseapp.com",
-    projectId: "testcenter-2025feb",
-    storageBucket: "testcenter-2025feb.firebasestorage.app",
-    messagingSenderId: "855126302941",
-    appId: "1:855126302941:web:15f3ab817a4a8cad3c3b34",
-    measurementId: "G-LKR8SRFFWR"
+    apiKey: "AIzaSyCR-nsO0Eibf9Fmba6zp0IeyNTiZ1YTNHQ",
+    authDomain: "testcenter-2025.firebaseapp.com",
+    projectId: "testcenter-2025",
+    storageBucket: "testcenter-2025.firebasestorage.app",
+    messagingSenderId: "446759343746",
+    appId: "1:446759343746:web:9025b482329802cc34069b",
+    measurementId: "G-0K3X6WSL09"
   };
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore(app);
