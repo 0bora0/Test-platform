@@ -38,64 +38,23 @@
             </nav>
         </div>
     </header>
-    <main class="container mt-5 pt-5 flex-grow-1 d-flex flex-column align-items-center">
-        <div id="start-screen" class="screen-container text-center p-5 rounded shadow-lg w-75 mb-5 fadeIn">
-            <h2 class="mb-4 text-primary animate__animated animate__fadeIn">Започнете вашия тест</h2>
-            <div class="mb-3">
-                <label for="questionCount" class="form-label">Брой въпроси:</label>
-                <input type="number" id="questionCount" class="form-control w-50 mx-auto" min="2" required>
-            </div>
-            <p id="availableQuestions" class="text-muted d-none">Изберете от въпроси за генериране</p>
-            <button id="start" class="btn btn-primary mt-3 px-4 py-2">Проверка и старт</button>
-        </div>
-
-        <!-- Test Screen -->
-        <div id="test-screen" class="screen-container text-center p-5 rounded shadow-lg w-100 mb-5 fadeIn"
-            style="display: none; max-width: 900px;">
-            <h3 id="question" class="text-primary mb-4 fw-bold fs-2"></h3>
-            <div id="options" class="mb-3 fs-4"></div>
-            <div class="container mt-4">
-                <div class="row g-2 align-items-center">
-                    <div class="col-12 col-md-3 d-flex justify-content-md-start justify-content-center">
-                        <button id="prev" class="btn btn-secondary w-100">Предишен</button>
-                    </div>
-                    <div class="col-12 col-md-6 d-flex justify-content-center">
-                        <div id="pagination" class="d-flex flex-wrap justify-content-center"></div>
-                    </div>
-                    <div class="col-12 col-md-3 d-flex justify-content-md-end justify-content-center">
-                        <button id="next" class="btn btn-primary w-100">Следващ</button>
-                    </div>
-                </div>
+    <main class="container mt-5">
+        <h2 class="text-light">Резултати</h2>
+        <div class="card bg-dark text-light shadow-lg">
+            <div class="card-body">
+                <table class="table table-dark table-hover">
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Дисциплина</th>
+                            <th>Преподавател</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="testTableBody"></tbody>
+                </table>
             </div>
         </div>
-
-        <!-- End Screen -->
-        <div id="end-screen" class="screen-container text-center p-5 rounded shadow-lg w-75 mb-5 fadeIn"
-            style="display: none;">
-            <h2 class="mb-4 text-danger animate__animated animate__fadeIn">Тестът приключи!</h2>
-            <p id="final-score" class="h4 text-success animate__animated animate__fadeIn mb-4"></p>
-            <button id="restart" class="btn btn-secondary mt-3 px-4 py-2">Рестартирай</button>
-            <button id="preview" class="btn btn-secondary mt-3 px-4 py-2">Преглед на опита</button>
-        </div>
-
-        <!-- Preview Section -->
-        <div id="previewSection" class="screen-container text-center p-5 rounded shadow-lg w-100 mb-5 fadeIn"
-        style="display: none; max-width: 900px;">
-        <div id="question-preview" class="text-primary mb-3"></div>
-        <div id="options-preview" class="mb-3"></div>
-        <div id="pagination-preview" class="d-flex flex-wrap justify-content-center mt-4"></div>
-        <div class="row g-2 align-items-center">
-            <div class="col-12 col-md-4 d-flex justify-content-md-start justify-content-center">
-                <button id="prev-preview" class="btn btn-secondary w-100">Предишен</button>
-            </div>
-            <div class="col-12 col-md-4 d-flex justify-content-center">
-                <button id="next-preview" class="btn btn-primary w-100">Следващ</button>
-            </div>
-            <div class="col-12 col-md-4 d-flex justify-content-md-end justify-content-center">
-                <button id="closePreview" class="btn btn-secondary w-100">Затвори прегледа</button>
-            </div>
-        </div>
-    </div>
     </main>
     <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
         <div class="container text-center">
@@ -115,70 +74,15 @@
             </div>
         </div>
     </footer>
-    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal fade" id="testModal" tabindex="-1" aria-labelledby="testModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="errorModalLabel">Неуспешно генериране на въпроси</h5>
+                    <h5 class="modal-title" id="modalTitle">Детайли за теста</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    В базата данни не съществуват толкова въпроси. Моля, изберете по-малко въпроси!
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="errorModal1" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="errorModal1Label">Неуспешно генериране на въпроси</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Моля, въведете валиден брой въпроси, които искате да се генерират!
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Сигурни ли сте, че искате да стартирате теста?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Натиснете старт, за да започнете вашият изпит! Успех!
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Започване на теста</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="successModal1" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModal1Label">Предаване на опита?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Сигурни ли сте, че искате да приключите опита?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="viewResult">Приключване на
-                        опита и предаване</button>
+                <div class="modal-body" id="modalBody">
+                    <!-- Тук ще се зареждат данните за теста -->
                 </div>
             </div>
         </div>

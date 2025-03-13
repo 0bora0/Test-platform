@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+// Firebase конфигурация
 const firebaseConfig = {
     apiKey: "AIzaSyCR-nsO0Eibf9Fmba6zp0IeyNTiZ1YTNHQ",
     authDomain: "testcenter-2025.firebaseapp.com",
@@ -9,185 +10,104 @@ const firebaseConfig = {
     messagingSenderId: "446759343746",
     appId: "1:446759343746:web:9025b482329802cc34069b",
     measurementId: "G-0K3X6WSL09"
-  };
+};
+
+// Инициализация на Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
 const db = getFirestore(app);
-
-let testData = null;
-let currentQuestionIndex = 0;
-let userAnswers = {};
-let timer;
-let startTime;
-
-const startScreen = document.getElementById("start-screen");
-const testScreen = document.getElementById("test-screen");
-const endScreen = document.getElementById("end-screen");
-const questionElement = document.getElementById("question");
-const optionsContainer = document.getElementById("options");
-const finalScoreElement = document.getElementById("final-score");
-const paginationContainer = document.getElementById("pagination");
-function displayUserInfo() {
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            try {
-                const userDoc = await getDoc(doc(db, "users", user.uid)); 
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    const firstName = userData.firstName || "Име";
-                    const lastName = userData.lastName || "Фамилия";
-                    const profilePic = userData.profilePic || "https://via.placeholder.com/40";
-
-                    const fullName = firstName && lastName 
-                        ? firstName + ' ' + lastName 
-                        : user.email;
-
-                    userNameElement.textContent = fullName;
-                    userImageElement.src = profilePic; // Използване на Base64 снимка
-                } else {
-                    userNameElement.textContent = user.email;
-                    userImageElement.src = "https://via.placeholder.com/40";
-                }
-
-                logoutButton.style.display = 'block';
-            } catch (error) {
-                console.error("Грешка при извличане на данни за потребителя:", error);
-            }
-        } else {
-            userNameElement.textContent = "Не сте влезли";
-            userImageElement.src = "https://via.placeholder.com/40";
-            logoutButton.style.display = 'none';
-        }
-    });
-}
-// Стартиране на теста
-async function loadTest() {
-    const testId = localStorage.getItem("testId");
-    if (!testId) {
-        alert("Няма избран тест!");
-        return;
+const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const currentUserEmail = user.email;
+        console.log("🔹 Логнат потребител:", currentUserEmail);
+        
+        // Зареждане на тестовете само за този потребител
+        loadUserTests(currentUserEmail);
+    } else {
+        console.log("❌ Няма логнат потребител");
+        window.location.href = "login.html"; // Пренасочване към страницата за вход
     }
+});
+// Извличане на текущия потребител (примерен userId, трябва да го вземеш от системата за логин)
+const currentUserEmail = "";  // Трябва да замениш с реалния email от системата за автентикация
 
+// HTML елементи
+const testTableBody = document.getElementById("testTableBody");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody = document.getElementById("modalBody");
+
+// Функция за зареждане на тестовете на текущия потребител
+async function loadUserTests(currentUserEmail) {
+    testTableBody.innerHTML = "";
+    
+    try {
+        const testsSnapshot = await getDocs(collection(db, "tests"));
+
+        testsSnapshot.forEach(async (testDoc) => {
+            const testData = testDoc.data();
+
+            // Проверка дали текущият потребител е включен в теста
+            if (testData.students.some(student => student.email === currentUserEmail)) {
+                
+                // Взимане на информация за преподавателя
+                const creatorDoc = await getDoc(doc(db, "users", testData.createdBy));
+                const creatorData = creatorDoc.exists() ? creatorDoc.data() : { fullName: "Неизвестен", profilePic: "" };
+
+                // Добавяне на ред в таблицата
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${new Date(testData.createdAt).toLocaleString()}</td>
+                    <td>${testData.discipline}</td>
+                    <td>${creatorData.fullName}</td>
+                    <td class="text-center">
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#testModal"
+                            onclick="openTestModal('${testDoc.id}')">
+                            Преглед
+                        </button>
+                    </td>
+                `;
+                testTableBody.appendChild(row);
+            }
+        });
+    } catch (error) {
+        console.error("Грешка при зареждане на тестовете:", error);
+    }
+}
+
+
+// Функция за отваряне на модалния прозорец с информация за теста
+async function openTestModal(testId) {
     try {
         const testDoc = await getDoc(doc(db, "tests", testId));
-        if (!testDoc.exists()) {
-            alert("Грешка при зареждане на теста!");
-            return;
-        }
-        testData = testDoc.data();
-        showTestDetails();
-    } catch (error) {
-        console.error("Грешка при зареждане на теста:", error);
-    }
-}
+        if (!testDoc.exists()) return;
 
-document.getElementById("start").addEventListener("click", function () {
-    startScreen.style.display = "none";
-    testScreen.style.display = "block";
-    startTimer(testData.testDuration);
-    showQuestion();
-});
+        const testData = testDoc.data();
 
-function startTimer(minutes) {
-    const endTime = Date.now() + minutes * 60000;
-    startTime = Date.now();
+        // Взимане на информация за преподавателя
+        const creatorDoc = await getDoc(doc(db, "users", testData.createdBy));
+        const creatorData = creatorDoc.exists() ? creatorDoc.data() : { fullName: "Неизвестен", profilePic: "" };
 
-    timer = setInterval(() => {
-        const remainingTime = Math.max(0, endTime - Date.now());
-        document.getElementById("timer").textContent = `Оставащо време: ${Math.ceil(remainingTime / 60000)} мин.`;
-        if (remainingTime <= 0) {
-            clearInterval(timer);
-            submitTest();
-        }
-    }, 1000);
-}
-
-function showQuestion() {
-    const question = testData.selectedQuestions[currentQuestionIndex];
-    questionElement.textContent = question.text;
-    optionsContainer.innerHTML = "";
-
-    question.options.forEach((option, index) => {
-        const isChecked = userAnswers[currentQuestionIndex] === index ? "checked" : "";
-        optionsContainer.innerHTML += `
-            <div>
-                <input type="radio" name="answer" value="${index}" id="option${index}" ${isChecked}>
-                <label for="option${index}">${option}</label>
+        // Попълване на модала
+        modalTitle.textContent = `Детайли за теста: ${testData.discipline}`;
+        modalBody.innerHTML = `
+            <p><strong>Брой въпроси:</strong> ${testData.questionCount}</p>
+            <p><strong>Време за теста:</strong> ${testData.testDuration} минути</p>
+            <p><strong>Тип на теста:</strong> ${testData.testType}</p>
+            <p><strong>Точки за преминаване:</strong> ${testData.passingScore}</p>
+            <p><strong>Общ брой точки:</strong> ${testData.totalScore || "Неизвестно"}</p>
+            <p><strong>Създаден от:</strong> ${creatorData.fullName}</p>
+            <img src="${creatorData.profilePic || 'https://via.placeholder.com/100'}" alt="Снимка на преподавателя" class="rounded-circle" width="100">
+            <div class="text-center mt-3">
+                <button class="btn btn-primary">Започни теста</button>
             </div>
         `;
-    });
-    updatePagination();
-}
-
-document.getElementById("next").addEventListener("click", function () {
-    saveAnswer();
-    if (currentQuestionIndex < testData.selectedQuestions.length - 1) {
-        currentQuestionIndex++;
-        showQuestion();
-    }
-});
-
-document.getElementById("prev").addEventListener("click", function () {
-    saveAnswer();
-    if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        showQuestion();
-    }
-});
-
-document.getElementById("end-test").addEventListener("click", function () {
-    submitTest();
-});
-
-function saveAnswer() {
-    const selectedOption = document.querySelector("input[name='answer']:checked");
-    if (selectedOption) {
-        userAnswers[currentQuestionIndex] = parseInt(selectedOption.value);
+    } catch (error) {
+        console.error("Грешка при зареждане на детайлите за теста:", error);
     }
 }
 
-async function submitTest() {
-    clearInterval(timer);
-    const testId = localStorage.getItem("testId");
-    let correctAnswers = 0;
+// Зареждане на тестовете при стартиране
+document.addEventListener("DOMContentLoaded", loadUserTests);
 
-    testData.selectedQuestions.forEach((question, index) => {
-        if (userAnswers[index] === question.correct) {
-            correctAnswers++;
-        }
-    });
-
-    const timeTaken = Math.round((Date.now() - startTime) / 1000);
-    const finalScore = (correctAnswers / testData.selectedQuestions.length) * testData.maxScore;
-
-    await setDoc(doc(db, "results", testId + "_" + auth.currentUser.uid), {
-        userId: auth.currentUser.uid,
-        testId: testId,
-        correctAnswers,
-        totalQuestions: testData.selectedQuestions.length,
-        score: finalScore.toFixed(2),
-        timeTaken,
-        date: new Date().toISOString()
-    });
-
-    testScreen.style.display = "none";
-    endScreen.style.display = "block";
-    finalScoreElement.textContent = `Верни отговори: ${correctAnswers} от ${testData.selectedQuestions.length} | Оценка: ${finalScore.toFixed(2)} / ${testData.maxScore}`;
-}
-
-document.addEventListener("DOMContentLoaded", loadTest);
-
-function updatePagination() {
-    paginationContainer.innerHTML = "";
-    testData.selectedQuestions.forEach((_, index) => {
-        const pageButton = document.createElement("button");
-        pageButton.className = `btn btn-sm ${index === currentQuestionIndex ? "btn-primary" : "btn-outline-secondary"}`;
-        pageButton.textContent = index + 1;
-        pageButton.addEventListener("click", function () {
-            saveAnswer();
-            currentQuestionIndex = index;
-            showQuestion();
-        });
-        paginationContainer.appendChild(pageButton);
-    });
-}
+// Правим функцията достъпна глобално
+window.openTestModal = openTestModal;
