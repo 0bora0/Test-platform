@@ -10,16 +10,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
     }
 
-    // 🔥 Firebase конфигурация
     const firebaseConfig = {
         apiKey: "AIzaSyCR-nsO0Eibf9Fmba6zp0IeyNTiZ1YTNHQ",
         authDomain: "testcenter-2025.firebaseapp.com",
         projectId: "testcenter-2025",
-        storageBucket: "testcenter-2025.appspot.com",
+        storageBucket: "testcenter-2025.firebasestorage.app",
         messagingSenderId: "446759343746",
         appId: "1:446759343746:web:9025b482329802cc34069b",
         measurementId: "G-0K3X6WSL09"
-    };
+      };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);

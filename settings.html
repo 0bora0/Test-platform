@@ -78,39 +78,55 @@
             <label for="passingScore" class="form-label">Крайна оценка за преминаване (в %):</label>
             <input type="number" id="passingScore" class="form-control" min="1" max="100" required>
         </div>
-        <!-- Избор на потребители -->
-        <div class="mb-3">
-            <label class="form-label">Избери потребител за теста:</label>
-            <select id="userSelect" class="form-select">
-                <option value="">Зареждане...</option>
-            </select>
-            <button type="button" id="addUser" class="btn btn-success mt-2">Добави</button>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Разрешени потребители:</label>
-            <ul id="allowedUsersList" class="list-group"></ul>
-        </div>
+        <!-- Избор на потребители -->   
+        <table class="table table-bordered mt-3">
+            <thead class="table-light">
+                <tr>
+                    <th>Профилна снимка</th>
+                    <th>Име</th>
+                    <th>Презиме</th>
+                    <th>Фамилия</th>
+                    <th>Потребителско име</th>
+                    <th>Имейл</th>
+                    <th>Дисциплина</th>
+                    <th>Включен в теста</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- Данните за потребителите ще се добавят тук -->
+            </tbody>
+        </table>
+        
         <!-- Избор на въпроси -->
-        <div class="mb-3">
-            <label class="form-label">Избери въпроси за теста:</label>
-            <select id="questionSelect" class="form-select">
-                <option value="">Зареждане...</option>
-            </select>
-            <button type="button" id="addQuestion" class="btn btn-success mt-2">Добави</button>
+        <table class="table table-bordered mt-3">
+            <thead class="table-light">
+                <tr>
+                    <th>Въпрос</th>
+                    <th>Отговор 1</th>
+                    <th>Отговор 2</th>
+                    <th>Отговор 3</th>
+                    <th>Отговор 4</th>
+                    <th>Участие в теста</th>
+                </tr>
+            </thead>
+            <tbody id="questionTableBody">
+                <!-- Въпросите ще се добавят тук -->
+            </tbody>
+        </table>
+        
+        <h3 class="mt-4">Избрани въпроси:</h3>
+        <ul id="selectedQuestionsList" class="list-group"></ul>
             <button type="button" id="randomQuestions" class="btn btn-secondary mt-2"><i class="bi bi-shuffle"> Лотариен принцип</i></button>
             <button class="ai-button btn btn-secondary mt-2 position-relative" id="generateAI">
                 Генериране на въпроси с AI
             </button>
             <!-- Контейнер за въпросите (акордеон) -->
 <div class="accordion mt-4 border rounded shadow-sm p-3 bg-light" id="selectedQuestionsList"></div>
-
-
-        </div>
         <div class="mb-3">
             <label class="form-label">Избрани въпроси:</label>
             <ul id="selectedQuestionsList" class="list-group"></ul>
         </div>
-        <button type="submit" class="btn btn-primary">Запази настройки</button>
+        <button type="submit" class="btn btn-primary" id="saveTest">Запази настройки</button>
     </form>
     <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
         <div class="container text-center">
