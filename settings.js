@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, getDoc,query,where } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCR-nsO0Eibf9Fmba6zp0IeyNTiZ1YTNHQ",
@@ -11,16 +11,25 @@ const firebaseConfig = {
     measurementId: "G-0K3X6WSL09"
 };
 
-// 🔥 Инициализиране на Firebase
+// 🔥 Инициализация на Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 📌 Взимаме HTML елементите
+// 📌 HTML елементи
 const disciplineSelect = document.getElementById("course");
 const questionBankSelect = document.getElementById("questionBank");
 const userTableBody = document.getElementById("userTableBody");
 const questionTableBody = document.getElementById("questionTableBody");
-const selectedStudents = new Set(); 
+const saveButton = document.getElementById("saveTest"); // 🔹 Бутон за запазване
+
+// 📌 Полета за допълнителни настройки на теста
+const testTypeSelect = document.getElementById("testType");
+const questionCountInput = document.getElementById("questionCount");
+const testDurationInput = document.getElementById("testDuration");
+const passingScoreInput = document.getElementById("passingScore");
+
+// ✅ Динамични списъци за избрани студенти и въпроси
+const selectedStudents = new Set();
 const selectedQuestions = new Set();
 
 // ✅ Зареждане на дисциплините в падащото меню
@@ -32,7 +41,7 @@ async function loadDisciplines() {
         querySnapshot.forEach((doc) => {
             const course = doc.data();
             const option = document.createElement("option");
-            option.value = doc.id; // Взимаме ID-то на документа
+            option.value = doc.id; // ❗ Запазваме ID-то, а не disciplineName
             option.textContent = course.disciplineName;
             disciplineSelect.appendChild(option);
         });
@@ -44,43 +53,42 @@ async function loadDisciplines() {
 // ✅ Зареждане на банки с въпроси след избор на дисциплина
 async function loadQuestionBanks() {
     questionBankSelect.innerHTML = '<option value="">-- Избери банка с въпроси --</option>';
-    const selectedDiscipline = disciplineSelect.value.trim();
+    const selectedDisciplineId = disciplineSelect.value.trim();
 
-    if (!selectedDiscipline) return;
+    if (!selectedDisciplineId) return;
 
     try {
-        const coursesSnapshot = await getDocs(query(collection(db, "courses"), where("disciplineName", "==", selectedDiscipline)));
-        
-        coursesSnapshot.forEach((doc) => {
-            const course = doc.data();
-            if (course.questionBanks && Array.isArray(course.questionBanks)) {
-                course.questionBanks.forEach((bank) => {
+        const disciplineDoc = await getDoc(doc(db, "courses", selectedDisciplineId));
+
+        if (disciplineDoc.exists()) {
+            const disciplineData = disciplineDoc.data();
+            if (disciplineData.questionBanks) {
+                disciplineData.questionBanks.forEach((bank) => {
                     let option = document.createElement("option");
                     option.value = bank.name;
                     option.textContent = bank.name;
                     questionBankSelect.appendChild(option);
                 });
             }
-        });
-
+        }
     } catch (error) {
         console.error("❌ Грешка при зареждане на банките с въпроси:", error);
     }
 }
 
-
+// ✅ Зареждане на Студенти
 async function loadStudents() {
-    userTableBody.innerHTML = ""; // Изчистваме таблицата
-    const selectedDiscipline = disciplineSelect.value.trim();
+    userTableBody.innerHTML = ""; 
+    const selectedDisciplineId = disciplineSelect.value.trim();
 
-    if (!selectedDiscipline) return;
+    if (!selectedDisciplineId) return;
 
     try {
-        const disciplineDoc = await getDoc(doc(db, "courses", selectedDiscipline));
+        const disciplineDoc = await getDoc(doc(db, "courses", selectedDisciplineId));
 
         if (disciplineDoc.exists()) {
             const disciplineData = disciplineDoc.data();
-            if (disciplineData.students && Array.isArray(disciplineData.students)) {
+            if (disciplineData.students) {
                 disciplineData.students.forEach((student) => {
                     addStudentToTable(student);
                 });
@@ -91,10 +99,9 @@ async function loadStudents() {
     }
 }
 
-// 🔹 Функция за добавяне на студент в таблицата (без презареждане)
+// 🔹 Добавяне на Студент в Таблицата
 function addStudentToTable(student) {
     const row = document.createElement("tr");
-    row.dataset.email = student.email; // Запазваме email-а като уникален идентификатор
 
     row.innerHTML = `
         <td><img src="${student.profilePic || 'https://placehold.co/50x50'}" class="rounded-circle" width="50"></td>
@@ -110,88 +117,72 @@ function addStudentToTable(student) {
     `;
 
     const checkbox = row.querySelector(".student-checkbox");
-
-    // ✅ Проверяваме дали студентът вече е избран
-    if (selectedStudents.has(student.email)) {
-        checkbox.checked = true;
-    }
-
-    // ✅ Добавяне или премахване на студент при кликване на чекбокса
+    
     checkbox.addEventListener("change", () => {
         if (checkbox.checked) {
-            selectedStudents.add(student.email);
+            selectedStudents.add(student);
         } else {
-            selectedStudents.delete(student.email);
+            selectedStudents.delete(student);
         }
     });
 
     userTableBody.appendChild(row);
 }
 
+// ✅ Зареждане на Въпроси
 async function loadQuestions() {
-    questionTableBody.innerHTML = ""; // Изчистваме таблицата
-    const selectedBankName = questionBankSelect.value.trim(); // Избраната банка с въпроси
-    const selectedDiscipline = disciplineSelect.value.trim(); // Избраната дисциплина
+    questionTableBody.innerHTML = "";
+    const selectedDisciplineId = disciplineSelect.value.trim();
+    const selectedBankName = questionBankSelect.value.trim();
 
-    if (!selectedBankName || !selectedDiscipline) return;
+    if (!selectedDisciplineId || !selectedBankName) return;
 
     try {
-        const coursesSnapshot = await getDocs(collection(db, "courses"));
-        let foundQuestions = false; // Флаг дали има въпроси
+        const disciplineDoc = await getDoc(doc(db, "courses", selectedDisciplineId));
 
-        coursesSnapshot.forEach((doc) => {
-            const course = doc.data();
+        if (disciplineDoc.exists()) {
+            const disciplineData = disciplineDoc.data();
 
-            // Проверяваме дали курсът съдържа избраната дисциплина
-            if (course.disciplineName === selectedDiscipline && course.questionBanks) {
-                // Търсим избраната банка с въпроси
-                const selectedBank = course.questionBanks.find(bank => bank.name === selectedBankName);
-                
-                if (selectedBank && selectedBank.questions && selectedBank.questions.length > 0) {
-                    foundQuestions = true;
-                    selectedBank.questions.forEach((question, index) => {
-                        addQuestionToTable(question, index);
+            if (disciplineData.questionBanks) {
+                const selectedBank = disciplineData.questionBanks.find(bank => bank.name === selectedBankName);
+
+                if (selectedBank && selectedBank.questions) {
+                    selectedBank.questions.forEach((question) => {
+                        addQuestionToTable(question);
                     });
                 }
             }
-        });
-
-        // Ако няма въпроси, показваме съобщение
-        if (!foundQuestions) {
-            questionTableBody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">❌ Няма въпроси в тази банка</td></tr>`;
         }
-
     } catch (error) {
         console.error("❌ Грешка при зареждане на въпросите:", error);
-        questionTableBody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">❌ Грешка при зареждане на въпросите</td></tr>`;
     }
 }
 
-
-// 🔹 Функция за добавяне на въпрос в таблицата (Bootstrap стил)
-function addQuestionToTable(question, index) {
+// 🔹 Добавяне на Въпрос в Таблицата
+function addQuestionToTable(question) {
     const row = document.createElement("tr");
+
     row.innerHTML = `
         <td>${question.question}</td>
         <td>${question.options[0]}</td>
         <td>${question.options[1]}</td>
         <td>${question.options[2]}</td>
         <td>${question.options[3]}</td>
-        <td>
-            <select class="form-select correct-answer-select">
-                ${question.options.map(option => `<option value="${option}" ${option === question.correctAnswer ? 'selected' : ''}>${option}</option>`).join("")}
-            </select>
+        <td class="text-success">
+            <i class="bi bi-check-circle"></i> ${question.correctAnswer}
         </td>
         <td class="text-center">
-            <input type="checkbox" class="form-check-input select-question" data-index="${index}">
+            <input type="checkbox" class="form-check-input select-question">
         </td>
     `;
 
-    row.querySelector(".select-question").addEventListener("change", (e) => {
+    const checkbox = row.querySelector(".select-question");
+
+    checkbox.addEventListener("change", (e) => {
         if (e.target.checked) {
-            selectedQuestions.add(index);
+            selectedQuestions.add(question);
         } else {
-            selectedQuestions.delete(index);
+            selectedQuestions.delete(question);
         }
     });
 
@@ -199,8 +190,32 @@ function addQuestionToTable(question, index) {
 }
 
 
-// ✅ Слушатели за събития
+
+// ✅ Запазване на Теста в Базата Данни
+async function saveTest() {
+    const testData = {
+        discipline: disciplineSelect.value,
+        questionBank: questionBankSelect.value,
+        testType: testTypeSelect.value,
+        questionCount: parseInt(questionCountInput.value),
+        testDuration: parseInt(testDurationInput.value),
+        passingScore: parseInt(passingScoreInput.value),
+        students: Array.from(selectedStudents),
+        questions: Array.from(selectedQuestions),
+        createdAt: new Date().toISOString()
+    };
+
+    try {
+        await setDoc(doc(db, "tests", new Date().getTime().toString()), testData);
+        alert("✅ Тестът е запазен успешно!");
+    } catch (error) {
+        console.error("❌ Грешка при запазване на теста:", error);
+    }
+}
+
+// ✅ Слушатели за Събития
 disciplineSelect.addEventListener("change", loadQuestionBanks);
 questionBankSelect.addEventListener("change", loadQuestions);
 document.addEventListener("DOMContentLoaded", loadDisciplines);
 disciplineSelect.addEventListener("change", loadStudents);
+saveButton.addEventListener("click", saveTest);
