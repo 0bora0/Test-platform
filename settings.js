@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getFirestore, collection, getDocs, doc, getDoc, addDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCR-nsO0Eibf9Fmba6zp0IeyNTiZ1YTNHQ",
@@ -10,10 +11,24 @@ const firebaseConfig = {
     appId: "1:446759343746:web:9025b482329802cc34069b",
     measurementId: "G-0K3X6WSL09"
 };
+   // 🔥 Инициализация на Firebase Authentication
+   const auth = getAuth();
+   const app = initializeApp(firebaseConfig);
+   const db = getFirestore(app);
+   // 🔹 Взимаме текущото заглавие на страницата
+   const pageTitle = document.title;
 
+   // ✅ Проследяване на логнатия потребител
+   onAuthStateChanged(auth, (user) => {
+       if (user) {
+           const userName = user.displayName || user.email; // Ако няма име, използваме email
+           document.title = `${pageTitle} | ${userName}`; // Променяме title
+       } else {
+           document.title = `${pageTitle} | Гост`; // Ако няма логнат потребител
+       }
+   });
 // 🔥 Инициализация на Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+
 
 // 📌 HTML елементи
 const selectedDisciplineName = document.getElementById("course").selectedOptions[0].textContent;
@@ -51,10 +66,8 @@ function clearForm() {
     questionCountInput.value = "";
     testDurationInput.value = "";
     passingScoreInput.value = "";
-    
     selectedStudents.clear();
     selectedQuestions.clear();
-
     userTableBody.innerHTML = ""; // Изчистваме таблицата със студенти
     questionTableBody.innerHTML = ""; // Изчистваме таблицата с въпроси
 }

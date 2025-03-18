@@ -7,8 +7,7 @@
     <title>Начална страница</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="profile.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEJ2QJ7lXOTOk3vYft3sZj/dW9v/RkG8D9r6uE6xwQGJ7A1RV2mRtv1FPV+8J" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=52234&format=png&color=000000"
         type="image/x-icon">
@@ -45,6 +44,9 @@
     </header>
 
     <main class="container mt-5 pt-5">
+        <section id="welcome" class="text-center mb-4">
+            <h2 class="animate__animated animate__fadeIn animate__delay-1s">Добре дошли в профила си!</h2>
+        </section>
         <section class="row g-4 mb-4">
             <div class="col-md-4 col-sm-6">
                 <div class="card-dashboard card-users p-3 text-white rounded shadow-lg"
@@ -106,89 +108,97 @@
                 </div>
             </div>
         </section>
-
-        <section id="welcome" class="text-center mb-4">
-            <h2 class="animate__animated animate__fadeIn animate__delay-1s">Добре дошли в профила си!</h2>
-        </section>
-
         <section id="profile-container" class="container mt-2 pt-5 animate__animated animate__fadeIn mb-5">
             <div class="row g-5">
-                <div class="col-md-5 col-12 d-flex justify-content-center align-items-center">
-                    <div class="image-wrapper shadow-lg rounded-lg overflow-hidden">
-                        <img src="https://img.freepik.com/free-vector/happy-student-concept-illustration_114360-8328.jpg"
-                            alt="Profile Image" class="img-fluid profile-image transition-all">
-                    </div>
-                </div>
-
-                <div class="col-md-7 col-12 d-flex flex-column justify-content-center">
+                <div class="col-md-12 d-flex flex-column justify-content-center">
                     <div class="operations-container shadow-lg rounded-lg p-4 bg-white">
-                        <h2 class="text-center text-primary mb-4 animate__animated animate__fadeInUp">Вашите Операции
-                        </h2>
-
-                        <div class="list-group">
-                            <a href="add_question.html"
-                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
-                                <span class="fs-5 text-center">Добавяне на въпрос</span>
-                                <i class="fas fa-plus-circle fs-3"></i>
-                            </a>
-                            <p class="operation-description">Добавете нови въпроси към тестовете, които ще бъдат
-                                използвани за проверка на знанията на студентите.</p>
-                                <a href="settings.html"
-                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
-                                <span class="fs-5 text-center">Настройки и наблюдения върху теста</span>
-                                <i class="fas fa-solid fa-gears"></i>
-                            </a>
-                            <p class="operation-description">Можете да наблюдавате тестовете на учениците/студентите в реално време, както и да преглеждате резултатите им.</p>
-                            <a href="edit.html"
-                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
-                                <span class="fs-5 text-center">Редактиране на профил</span>
-                                <i class="fas fa-user-edit fs-3"></i>
-                            </a>
-                            <p class="operation-description">Променете информацията в профила си, като например името,
-                                потребителското име, паролата и настройките за конфиденциалност.</p>
-
-                            <a href="users.html"
-                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
-                                <span class="fs-5 text-center">Регистрирани потребители</span>
-                                <i class="fas fa-users fs-3"></i>
-                            </a>
-                            <p class="operation-description">Прегледайте списъка с всички потребители, които са се
-                                регистрирали на платформата.</p>
-
-                            <a href="index1.html"
-                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
-                                <span class="fs-5 text-center">Стартиране на тест</span>
-                                <i class="fas fa-play-circle fs-3"></i>
-                            </a>
-                            <p class="operation-description">Започнете тест, за да проверите знанията си
-                                по конкретни теми.</p>
-
-                            <a href="grades.html"
-                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
-                                <span class="fs-5 text-center">Оценка на потребителите</span>
-                                <i class="fas fa-star fs-3"></i>
-                            </a>
-                            <p class="operation-description">Оценявайте потребителите въз основа на техните резултати от
-                                тестовете.</p>
-
-                            <a href="preview.html"
-                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
-                                <span class="fs-5 text-center">Крайни резултати</span>
-                                <i class="fas fa-star fs-3"></i>
-                            </a>
-                            <p class="operation-description">В тази секция може да прегледате опитите от тестовете на студентите, които са получили крайна оценка.</p>
-
-                            <a href="edit_question.html"
-                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
-                                <span class="fs-5 text-center">Редактиране на въпрос</span>
-                                <i class="fas fa-user-edit fs-3"></i>
-                            </a>
-                            <p class="operation-description">С тази операция може да редактирате даден въпрос от банката с въпроси и след запазването на промените, въпросът ще бъде редактиран в базата данни.</p>
+                        <h2 class="text-center text-primary mb-4 animate__animated animate__fadeInUp">Вашите Операции</h2>
+        
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                                <a href="add_question.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                    <span class="fs-5 text-center">Добавяне на въпрос</span>
+                                    <i class="fas fa-plus-circle fs-3"></i>
+                                </a>
+                                <p class="operation-description">Добавете нови въпроси към тестовете, които ще бъдат използвани за проверка на знанията на студентите.</p>
+                            </div>
+        
+                            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                                <a href="settings.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                    <span class="fs-5 text-center">Настройки и наблюдения върху теста</span>
+                                    <i class="fas fa-solid fa-gears"></i>
+                                </a>
+                                <p class="operation-description">Можете да наблюдавате тестовете на учениците/студентите в реално време, както и да преглеждате резултатите им.</p>
+                            </div>
+        
+                            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                                <a href="edit.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                    <span class="fs-5 text-center">Редактиране на профил</span>
+                                    <i class="fas fa-user-edit fs-3"></i>
+                                </a>
+                                <p class="operation-description">Променете информацията в профила си, като например името, потребителското име, паролата и настройките за конфиденциалност.</p>
+                            </div>
+        
+                            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                                <a href="users.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                    <span class="fs-5 text-center">Регистрирани потребители</span>
+                                    <i class="fas fa-users fs-3"></i>
+                                </a>
+                                <p class="operation-description">Прегледайте списъка с всички потребители, които са се регистрирали на платформата.</p>
+                            </div>
+        
+                            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                                <a href="index1.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                    <span class="fs-5 text-center">Стартиране на тест</span>
+                                    <i class="fas fa-play-circle fs-3"></i>
+                                </a>
+                                <p class="operation-description">Започнете тест, за да проверите знанията си по конкретни теми.</p>
+                            </div>
+        
+                            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                                <a href="grades.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                    <span class="fs-5 text-center">Оценка на потребителите</span>
+                                    <i class="fas fa-star fs-3"></i>
+                                </a>
+                                <p class="operation-description">Оценявайте потребителите въз основа на техните резултати от тестовете.</p>
+                            </div>
+        
+                            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                                <a href="preview.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                    <span class="fs-5 text-center">Крайни резултати</span>
+                                    <i class="fas fa-star fs-3"></i>
+                                </a>
+                                <p class="operation-description">В тази секция може да прегледате опитите от тестовете на студентите, които са получили крайна оценка.</p>
+                            </div>
+        
+                            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                                <a href="edit_question.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                    <span class="fs-5 text-center">Редактиране на въпрос</span>
+                                    <i class="fas fa-user-edit fs-3"></i>
+                                </a>
+                                <p class="operation-description">С тази операция може да редактирате даден въпрос от банката с въпроси и след запазването на промените, въпросът ще бъде редактиран в базата данни.</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                                <a href="add_bank.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                    <span class="fs-5 text-center">Добавяне на банка с въпроси</span>
+                                    <i class="fa-solid fa-vault fs-3"></i>
+                                </a>
+                                <p class="operation-description">Тук можете да добавяте нова банка с въпроси, към създадените вече дисциплини.</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                                <a href="add_users.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                    <span class="fs-5 text-center">Добавяне на потребители към курс</span>
+                                    <i class="fa-solid fa-vault fs-3"></i>
+                                </a>
+                                <p class="operation-description">С тази операция може да добавите потребители в курса.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        
+
     </main>
 
     <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
@@ -217,6 +227,10 @@
     <script src="loader.js" type="module">
         import { withLoader } from './loader.js';
         withLoader(fetchData);
+    </script>
+    <script type="module" src="updateTitle.js">
+         import { updatePageTitle } from "./updateTitle.js";
+         updatePageTitle("Тестова платформа");
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

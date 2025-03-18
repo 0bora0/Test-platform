@@ -23,7 +23,7 @@ tbody td {
     text-align: center;
 }
 .btn-primary {
-    background: linear-gradient(135deg, #034687 0%, #00c379 100%);
+    background: linear-gradient(97deg, #0096FF, #BB64FF 42%, #F2416B 74%, #EB7500);
     transition: background-color 0.3s ease;
 }
 .btn-primary:hover {

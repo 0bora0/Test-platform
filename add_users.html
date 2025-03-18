@@ -4,12 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрирани потребители</title>
+    <title>Създаване на курс</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=52234&format=png&color=000000" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="users.css">
+    <style>
+   
+    body {
+        background: #f8f9fa;
+    }
+    
+    .card {
+        background-color: #fff;
+        padding: 20px;
+        margin-top: 70px;
+    }
+    
+    .btn {
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+    
+    .form-select, .form-control {
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-select:focus, .form-control:focus {
+        border-color: #0056b3;
+        box-shadow: 0 0 0 0.25rem rgba(38, 143, 255, 0.5);
+    }
+
+    .card-body {
+        padding: 30px;
+    }
+
+    @media (max-width: 768px) {
+        .card {
+            margin: 10px;
+        }
+    }
+
+    </style>
 </head>
 
 <body class="d-flex flex-column" style="min-height: 100vh;">
@@ -18,8 +60,10 @@
             <h1 class="h3 text-white">Тестова платформа</h1>
             <nav class="d-flex align-items-center">
                 <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-white" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img id="userImage" src="https://via.placeholder.com/40" alt="Потребител" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-white"
+                        id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img id="userImage" src="https://via.placeholder.com/40" alt="Потребител"
+                            class="rounded-circle me-2" style="width: 40px; height: 40px;">
                         <span id="userName" class="me-2">Зареждане...</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
@@ -27,7 +71,9 @@
                         <li><a class="dropdown-item" href="index1.html">Тестове</a></li>
                         <li><a class="dropdown-item" href="users.html">Регистрирани потребители</a></li>
                         <li><a class="dropdown-item" href="edit.html">Редактиране на профил</a></li>
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li><a class="dropdown-item text-danger" href="login.html" id="logout">Изход</a></li>
                     </ul>
                 </div>
@@ -36,28 +82,45 @@
     </header>
 
     <main class="container py-4">
-        <div class="mb-3">
-            <label for="discipline-name" class="form-label fw-bold">Име на дисциплина:</label>
-            <input type="text" id="discipline-name" class="form-control">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-lg border-0 rounded">
+                    <div class="card-body">
+                        <h2 class="text-center mb-4">Създаване на дисциплина</h2>
+                        
+                        <div class="mb-3">
+                            <label for="discipline-name" class="form-label fw-bold">Име на дисциплина:</label>
+                            <input type="text" id="discipline-name" class="form-control" placeholder="Въведете име на дисциплина" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="course-select" class="form-label fw-bold">Курс:</label>
+                            <select id="course-select" class="form-select" required>
+                                <option value="" disabled selected>Изберете курс</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="student-select" class="form-label fw-bold">Избери студенти:</label>
+                            <select id="student-select" class="form-select" required>
+                                <!-- Студентите ще се зареждат динамично -->
+                            </select>
+                        </div>
+                        
+                        <button id="add-student" class="btn btn-primary w-100">Добави</button>
+                        <div id="student-list" class="mt-3"></div>
+                        
+                        <button id="create-discipline" class="btn btn-success w-100 mt-3">Създаване на курс</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="course-select" class="form-label fw-bold">Курс:</label>
-            <select id="course-select" class="form-select">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="student-select" class="form-label fw-bold">Избери студенти:</label>
-            <select id="student-select" class="form-select"></select>
-        </div>
-        <button id="add-student" class="btn btn-primary">Добави</button>
-        <div id="student-list" class="mt-3"></div>
-        <button id="create-discipline" class="btn btn-success mt-3">Създаване на курс</button>
     </main>
 
     <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
@@ -66,158 +129,154 @@
         </div>
     </footer>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCR-nsO0Eibf9Fmba6zp0IeyNTiZ1YTNHQ",
-  authDomain: "testcenter-2025.firebaseapp.com",
-  projectId: "testcenter-2025",
-  storageBucket: "testcenter-2025.firebasestorage.app",
-  messagingSenderId: "446759343746",
-  appId: "1:446759343746:web:9025b482329802cc34069b",
-  measurementId: "G-0K3X6WSL09"
-};
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp);
+        const firebaseConfig = {
+            apiKey: "AIzaSyCR-nsO0Eibf9Fmba6zp0IeyNTiZ1YTNHQ",
+            authDomain: "testcenter-2025.firebaseapp.com",
+            projectId: "testcenter-2025",
+            storageBucket: "testcenter-2025.firebasestorage.app",
+            messagingSenderId: "446759343746",
+            appId: "1:446759343746:web:9025b482329802cc34069b",
+            measurementId: "G-0K3X6WSL09"
+        };
+        const firebaseApp = initializeApp(firebaseConfig);
+        const db = getFirestore(firebaseApp);
 
-let addedStudents = new Set(); 
+        let addedStudents = new Set();
 
-async function loadStudents() {
-    const studentSelect = document.getElementById("student-select");
-    if (!studentSelect) {
-        console.error("Не е намерен елемент с ID 'student-select'");
-        return;
-    }
+        async function loadStudents() {
+            const studentSelect = document.getElementById("student-select");
+            if (!studentSelect) {
+                console.error("Не е намерен елемент с ID 'student-select'");
+                return;
+            }
 
-    try {
-        const usersRef = collection(db, "users");
-        const q = query(usersRef, where("role", "==", "Студент"));
-        const snapshot = await getDocs(q);
+            try {
+                const usersRef = collection(db, "users");
+                const q = query(usersRef, where("role", "==", "Студент"));
+                const snapshot = await getDocs(q);
 
-        if (snapshot.empty) {
-            console.log("Няма намерени студенти.");
-            return;
+                if (snapshot.empty) {
+                    console.log("Няма намерени студенти.");
+                    return;
+                }
+
+                snapshot.forEach(doc => {
+                    const user = doc.data();
+                    const option = document.createElement("option");
+                    option.value = doc.id;
+                    option.dataset.userInfo = JSON.stringify(user); 
+                    option.textContent = `${user.firstName} ${user.lastName} (${user.email})`;
+                    studentSelect.appendChild(option);
+                });
+
+                console.log("✅ Студентите са заредени успешно!");
+            } catch (error) {
+                console.error("❌ Грешка при зареждане на студентите:", error);
+            }
         }
 
-        snapshot.forEach(doc => {
-            const user = doc.data();
-            const option = document.createElement("option");
-            option.value = doc.id;
-            option.dataset.userInfo = JSON.stringify(user); 
-            option.textContent = `${user.firstName} ${user.lastName} (${user.email})`;
-            studentSelect.appendChild(option);
-        });
+        const selectedStudents = new Map();
 
-        console.log("✅ Студентите са заредени успешно!");
-    } catch (error) {
-        console.error("❌ Грешка при зареждане на студентите:", error);
-    }
-}
+        document.getElementById("add-student").addEventListener("click", () => {
+            const studentSelect = document.getElementById("student-select");
+            const disciplineName = document.getElementById("discipline-name").value.trim();
+            const course = document.getElementById("course-select").value;
+            const studentList = document.getElementById("student-list");
 
+            if (!disciplineName || !course) {
+                alert("⚠️ Моля, попълнете дисциплината и курса.");
+                return;
+            }
 
-const selectedStudents = new Map(); 
+            const selectedOption = studentSelect.selectedOptions[0];
+            if (!selectedOption) {
+                alert("⚠️ Моля, изберете студент.");
+                return;
+            }
 
-document.getElementById("add-student").addEventListener("click", () => {
-    const studentSelect = document.getElementById("student-select");
-    const disciplineName = document.getElementById("discipline-name").value.trim();
-    const course = document.getElementById("course-select").value;
-    const studentList = document.getElementById("student-list");
+            const userId = selectedOption.value;
+            const user = JSON.parse(selectedOption.dataset.userInfo);
 
-    if (!disciplineName || !course) {
-        alert("⚠️ Моля, попълнете дисциплината и курса.");
-        return;
-    }
+            if (selectedStudents.has(userId)) {
+                alert("⚠️ Този студент вече е добавен!");
+                return;
+            }
 
-    const selectedOption = studentSelect.selectedOptions[0];
-    if (!selectedOption) {
-        alert("⚠️ Моля, изберете студент.");
-        return;
-    }
+            selectedStudents.set(userId, { ...user, disciplineName, course });
 
-    const userId = selectedOption.value;
-    const user = JSON.parse(selectedOption.dataset.userInfo);
+            const accordionId = `accordion-${userId}`;
 
-    if (selectedStudents.has(userId)) {
-        alert("⚠️ Този студент вече е добавен!");
-        return;
-    }
-
-    
-    selectedStudents.set(userId, { ...user, disciplineName, course });
-
-    const accordionId = `accordion-${userId}`;
-
-    const studentAccordion = document.createElement("div");
-    studentAccordion.classList.add("accordion", "mb-2");
-    studentAccordion.innerHTML = `
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${accordionId}">
-                    ${user.firstName} ${user.lastName}
-                </button>
-            </h2>
-            <div id="collapse-${accordionId}" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    <div class="d-flex align-items-center">
-                        <img src="${user.profilePic || "https://placehold.co/50x50"}" class="rounded-circle me-3" style="width: 50px; height: 50px;">
-                        <div>
-                            <p><strong>Име:</strong> ${user.firstName}</p>
-                            <p><strong>Фамилия:</strong> ${user.lastName}</p>
-                            <p><strong>Имейл:</strong> ${user.email}</p>
-                            <p><strong>Роля:</strong> ${user.role}</p>
-                            <p><strong>Дисциплина:</strong> ${disciplineName}</p>
-                            <p><strong>Курс:</strong> ${course}</p>
+            const studentAccordion = document.createElement("div");
+            studentAccordion.classList.add("accordion", "mb-2");
+            studentAccordion.innerHTML = `
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${accordionId}">
+                            ${user.firstName} ${user.lastName}
+                        </button>
+                    </h2>
+                    <div id="collapse-${accordionId}" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <div class="d-flex align-items-center">
+                                <img src="${user.profilePic || "https://placehold.co/50x50"}" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                                <div>
+                                    <p><strong>Име:</strong> ${user.firstName}</p>
+                                    <p><strong>Фамилия:</strong> ${user.lastName}</p>
+                                    <p><strong>Имейл:</strong> ${user.email}</p>
+                                    <p><strong>Роля:</strong> ${user.role}</p>
+                                    <p><strong>Дисциплина:</strong> ${disciplineName}</p>
+                                    <p><strong>Курс:</strong> ${course}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    `;
+            `;
 
-    studentList.appendChild(studentAccordion);
+            studentList.appendChild(studentAccordion);
 
-    console.log(`✅ Добавен: ${user.firstName} ${user.lastName}`);
-});
-
-document.getElementById("create-discipline").addEventListener("click", async () => {
-    const disciplineName = document.getElementById("discipline-name").value.trim();
-    const course = document.getElementById("course-select").value;
-
-    if (!disciplineName || !course) {
-        alert("⚠️ Моля, попълнете дисциплината и курса.");
-        return;
-    }
-
-    if (selectedStudents.size === 0) {
-        alert("⚠️ Няма избрани студенти!");
-        return;
-    }
-
-    try {
- 
-        const studentsArray = Array.from(selectedStudents.values());
-
-        const courseRef = await addDoc(collection(db, "courses"), {
-            disciplineName,
-            course,
-            students: studentsArray,
-            timestamp: new Date()
+            console.log(`✅ Добавен: ${user.firstName} ${user.lastName}`);
         });
 
-        console.log(`✅ Курсът "${disciplineName}" беше създаден с ID: ${courseRef.id}`);
-        alert("✅ Курсът беше успешно създаден!");
-        location.reload();
-    } catch (error) {
-        console.error("❌ Грешка при запазване на курса:", error);
-        alert("⚠️ Възникна грешка. Опитайте отново.");
-    }
-});
+        document.getElementById("create-discipline").addEventListener("click", async () => {
+            const disciplineName = document.getElementById("discipline-name").value.trim();
+            const course = document.getElementById("course-select").value;
 
-document.addEventListener("DOMContentLoaded", loadStudents);
+            if (!disciplineName || !course) {
+                alert("⚠️ Моля, попълнете дисциплината и курса.");
+                return;
+            }
 
-</script>
+            if (selectedStudents.size === 0) {
+                alert("⚠️ Няма избрани студенти!");
+                return;
+            }
+
+            try {
+                const studentsArray = Array.from(selectedStudents.values());
+
+                const courseRef = await addDoc(collection(db, "courses"), {
+                    disciplineName,
+                    course,
+                    students: studentsArray,
+                    timestamp: new Date()
+                });
+
+                console.log(`✅ Курсът "${disciplineName}" беше създаден с ID: ${courseRef.id}`);
+                alert("✅ Курсът беше успешно създаден!");
+                location.reload();
+            } catch (error) {
+                console.error("❌ Грешка при запазване на курса:", error);
+                alert("⚠️ Възникна грешка. Опитайте отново.");
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", loadStudents);
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
