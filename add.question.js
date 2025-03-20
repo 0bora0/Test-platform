@@ -182,7 +182,6 @@ form.addEventListener("submit", async (e) => {
 
     const questionRaw = document.getElementById("question").value;
     const question = encodeURIComponent(questionRaw); // Кодиране на HTML таговете
-
     const option1 = document.getElementById("option1").value;
     const option2 = document.getElementById("option2").value;
     const option3 = document.getElementById("option3").value;
@@ -230,28 +229,22 @@ form.addEventListener("submit", async (e) => {
         await updateDoc(courseRef, {
             questionBanks: questionBanks
         });
-
         alert("Въпросът беше успешно добавен в банката с въпроси!");
-
         // Изчистваме формата
         form.reset();
-
     } catch (error) {
         console.error("Грешка при добавяне на въпрос:", error);
         alert("Възникна грешка при добавянето на въпрос. Моля, опитайте отново.");
     }
 });
-
 document.addEventListener("DOMContentLoaded", function() {
     // Функция за зареждане на дисциплините
     async function loadDisciplines() {
         const disciplineSelect = document.getElementById("discipline-select");
-
         if (!disciplineSelect) {
             console.error('Не намерихме селекта за дисциплините!');
             return;
         }
-
         try {
             // Извличане на дисциплините от Firestore
             const coursesRef = collection(db, "courses");
