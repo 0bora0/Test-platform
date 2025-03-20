@@ -12,8 +12,8 @@ const firebaseConfig = {
     measurementId: "G-0K3X6WSL09"
 };
    // 🔥 Инициализация на Firebase Authentication
-   const auth = getAuth();
    const app = initializeApp(firebaseConfig);
+   const auth = getAuth();
    const db = getFirestore(app);
    // 🔹 Взимаме текущото заглавие на страницата
    const pageTitle = document.title;
@@ -52,7 +52,7 @@ const selectedQuestions = new Map();
 
 // ✅ Функция за показване на Bootstrap alerts
 function showAlert(message, type) {
-    alertBox.innerHTML = `<div class="alert ${type} alert-dismissible fade show" role="alert">
+    alertBox.innerHTML = `<div class="alert alert-dismissible ${type} fade show" role="alert">
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>`;
@@ -75,19 +75,33 @@ function clearForm() {
 // ✅ Зареждане на дисциплините
 async function loadDisciplines() {
     disciplineSelect.innerHTML = '<option value="">-- Избери дисциплина --</option>';
+
     try {
         const querySnapshot = await getDocs(collection(db, "courses"));
-        querySnapshot.forEach((doc) => {
+        console.log(`✅ Намерени дисциплини: ${querySnapshot.size}`);
+
+        for (const doc of querySnapshot.docs) {
             const course = doc.data();
+            console.log("📄 Документ:", doc.id, course);
+
+            if (!course.disciplineName) {
+                console.warn(`⚠️ Липсващо поле "disciplineName" в документ ${doc.id}`);
+                continue;
+            }
+
             const option = document.createElement("option");
             option.value = doc.id;
             option.textContent = course.disciplineName;
             disciplineSelect.appendChild(option);
-        });
+        }
+
+        console.log("✅ Дисциплините са добавени успешно!");
     } catch (error) {
+        console.error("❌ Грешка при зареждане на дисциплините:", error);
         showAlert("❌ Грешка при зареждане на дисциплините!", "alert-danger");
     }
 }
+
 
 // ✅ Зареждане на банки с въпроси
 async function loadQuestionBanks() {
