@@ -9,20 +9,30 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="add_question.css">
-    <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=52234&format=png&color=000000"
-        type="image/x-icon">
+    <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=52234&format=png&color=000000" type="image/x-icon">
 </head>
+<style>
+    .question-type, .question-text, .answer-options {
+    margin-bottom: 15px;
+}
 
+.answer-options div {
+    margin-bottom: 10px;
+}
+
+button {
+    margin-top: 10px;
+}
+
+</style>
 <body>
-    <header class="fixed-top w-100" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
-        <div class="container d-flex justify-content-between align-items-center py-3">
-            <h1 class="h3 text-white">Тестова платформа</h1>
+    <header class="w-100 fixed-top" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container d-flex align-items-center justify-content-between py-3">
+            <h1 class="text-white h3">Тестова платформа</h1>
             <nav class="d-flex align-items-center">
                 <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-white"
-                        id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img id="userImage" src="https://via.placeholder.com/40" alt="Потребител"
-                            class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                    <a href="#" class="d-flex dropdown-toggle align-items-center text-decoration-none text-white" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img id="userImage" src="https://via.placeholder.com/40" alt="Потребител" class="rounded-circle me-2" style="width: 40px; height: 40px;">
                         <span id="userName" class="me-2">Зареждане...</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
@@ -39,15 +49,16 @@
             </nav>
         </div>
     </header>
+
     <div class="container my-5 pt-5">
-        <div class="row d-flex align-items-center justify-content-center">
+        <div class="d-flex row align-items-center justify-content-center">
             <div class="col-lg-10 col-md-12 col-sm-12">
-                <div class="form-container p-4 border rounded shadow-sm bg-light">
+                <div class="form-container bg-light border p-4 rounded shadow-sm">
                     <h2 class="text-center mb-4">Добави нов въпрос в банката</h2>
                     <form id="addQuestionForm">
                         <div class="row">
                             <!-- Избор на дисциплина и банка с въпроси -->
-                            <div class="col-lg-6 col-12 mb-3">
+                            <div class="col-12 col-lg-6 mb-3">
                                 <label for="discipline" class="form-label">Избери дисциплина:</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-book-half"></i></span>
@@ -57,7 +68,7 @@
                                 </div>
                             </div>
     
-                            <div class="col-lg-6 col-12 mb-3">
+                            <div class="col-12 col-lg-6 mb-3">
                                 <label for="questionBank" class="form-label">Избери банка с въпроси:</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-safe"></i></span>
@@ -67,10 +78,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <!-- Импортиране на въпроси -->
-                            <div class="col-lg-6 col-12 mb-4">
+                            <div class="col-12 col-lg-6 mb-4">
                                 <h4 class="text-center">Прикачи въпроси в банката от файл</h4>
                                 <div class="mb-3">
                                     <input type="file" id="fileInput" class="form-control">
@@ -81,113 +92,166 @@
                                     <button onclick="downloadFile()" class="btn btn-success w-100">Свали шаблон на въпроси <i class="bi bi-download"></i></button>
                                 </div>
                             </div>
-    
-                            <!-- Ръчно добавяне на въпрос -->
-                            <div class="col-lg-6 col-12">
-                                <div class="mb-3">
-                                    <label for="question" class="form-label">Въпрос:</label>
-                                    <textarea id="question" class="form-control" rows="3" required></textarea>
+
+                            <!-- Избор на тип въпрос -->
+                            <div class="col-12 col-lg-6 mb-3">
+                                <label for="questionType" class="form-label">Тип на въпроса:</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-question-circle"></i></span>
+                                    <select name="questionType" id="question-type" class="form-control" required>
+                                        <option value="multiple">Множествен избор</option>
+                                        <option value="text">Текстов отговор</option>
+                                        <option value="truefalse">Вярно/Невярно</option>
+                                    </select>
                                 </div>
-                                
-                                <!-- Отговори -->
+                            </div>
+
+                            <!-- Полета за отговори (ще се променят динамично според типа на въпроса) -->
+                            <div id="multipleOptions" class="answer-options">
                                 <div class="mb-3">
                                     <label for="option1" class="form-label">Отговор 1:</label>
                                     <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-option"></i></span>
-                                    <input type="text" id="option1" class="form-control" required>
+                                        <span class="input-group-text"><i class="bi bi-option"></i></span>
+                                        <input type="text" id="option1" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="option2" class="form-label">Отговор 2:</label>
                                     <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-option"></i></span>
-                                    <input type="text" id="option12" class="form-control" required>
+                                        <span class="input-group-text"><i class="bi bi-option"></i></span>
+                                        <input type="text" id="option2" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="option3" class="form-label">Отговор 3:</label>
                                     <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-option"></i></span>
-                                    <input type="text" id="option3" class="form-control" required>
+                                        <span class="input-group-text"><i class="bi bi-option"></i></span>
+                                        <input type="text" id="option3" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="option4" class="form-label">Отговор 4:</label>
                                     <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-option"></i></span>
-                                    <input type="text" id="option4" class="form-control" required>
+                                        <span class="input-group-text"><i class="bi bi-option"></i></span>
+                                        <input type="text" id="option4" class="form-control" required>
                                     </div>
                                 </div>
-                                
-                                <!-- Правилен отговор -->
+                                <button type="button" id="addOption" class="btn btn-primary">Добави още опция</button>
+                            </div>
+
+                            <!-- Поле за текстов отговор -->
+                            <div id="textAnswer" class="answer-options" style="display:none;">
                                 <div class="mb-3">
-                                    <label for="correct" class="form-label">Правилен отговор (индекс 0-3):</label>
-                                    <input type="number" id="correct" class="form-control" min="0" max="3" required>
+                                    <label for="textAnswerInput" class="form-label">Текстов отговор:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                                        <input type="text" id="textAnswerInput" class="form-control" required>
+                                    </div>
                                 </div>
-                                
-                                <!-- Запис на въпрос -->
-                                <div class="d-flex justify-content-center">
-                                    <button type="submit" class="btn btn-primary w-100">Запази в банката с въпроси <i class="bi bi-check-circle"></i></button>
+                            </div>
+
+                            <!-- Полета за вярно/невярно -->
+                            <div id="trueFalseAnswer" class="answer-options" style="display:none;">
+                                <div class="mb-3">
+                                    <label for="trueFalseAnswer" class="form-label">Отговор:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-check-circle"></i></span>
+                                        <select id="trueFalseAnswerSelect" class="form-control" required>
+                                            <option value="true">Вярно</option>
+                                            <option value="false">Невярно</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Добави въпроса</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        // This script dynamically handles different question types and the addition of answer options
+        document.getElementById('question-type').addEventListener('change', function() {
+            var selectedType = this.value;
+            var answerOptions = document.getElementById('answer-options');
+            answerOptions.innerHTML = '';  // Clear previous options
     
+            if (selectedType === 'multiple') {
+                addMultipleChoiceOptions();
+            } else if (selectedType === 'truefalse') {
+                addTrueFalseOptions();
+            } else if (selectedType === 'text') {
+                addTextAnswer();
+            }
+        });
     
-    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
-        <div class="container text-center">
-            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
-            <hr class="my-3"
-                style="border: 0; height: 3px; background: linear-gradient(135deg, #010e1c 0%, #013722 100%);">
-            <div>
-                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
-                    <i class="bi bi-instagram fs-2"></i>
-                </a>
-                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
-                    <i class="bi bi-facebook fs-2"></i>
-                </a>
-                <a href="https://www.linkedin.com" target="_blank" class="text-white">
-                    <i class="bi bi-linkedin fs-2"></i>
-                </a>
-            </div>
-        </div>
-    </footer>
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Успешно добавяне</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Въпросът беше добавен успешно!
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="errorModalLabel">Грешка при добавяне</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Неуспешно добавяне на въпроса. Опитайте отново.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
+        function addMultipleChoiceOptions() {
+            for (let i = 1; i <= 4; i++) {
+                var div = document.createElement('div');
+                div.classList.add("mb-3");
+                div.innerHTML = `
+                    <label for="option${i}" class="form-label">Отговор ${i}:</label>
+                    <div class="input-group">
+                        <input type="text" id="option${i}" class="form-control" required>
+                    </div>
+                `;
+                document.getElementById('answer-options').appendChild(div);
+            }
+        }
+    
+        function addTrueFalseOptions() {
+            var div = document.createElement('div');
+            div.classList.add("mb-3");
+            div.innerHTML = `
+                <label for="trueFalseAnswerSelect" class="form-label">Отговор:</label>
+                <select id="trueFalseAnswerSelect" class="form-control" required>
+                    <option value="true">Вярно</option>
+                    <option value="false">Невярно</option>
+                </select>
+            `;
+            document.getElementById('answer-options').appendChild(div);
+        }
+    
+        function addTextAnswer() {
+            var div = document.createElement('div');
+            div.classList.add("mb-3");
+            div.innerHTML = `
+                <label for="textAnswerInput" class="form-label">Вашият отговор:</label>
+                <input type="text" id="textAnswerInput" class="form-control" required>
+            `;
+            document.getElementById('answer-options').appendChild(div);
+        }
+    
+        // Submit form handling
+        document.getElementById('addQuestionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+    
+            var questionText = document.getElementById('question-text').value;
+            var questionType = document.getElementById('question-type').value;
+            var answerOptions = [];
+    
+            // Gather answers based on the selected question type
+            if (questionType === 'multiple') {
+                var options = document.querySelectorAll('#answer-options input[type="text"]');
+                options.forEach(function(option) {
+                    answerOptions.push(option.value);
+                });
+            } else if (questionType === 'truefalse') {
+                answerOptions.push(document.getElementById('trueFalseAnswerSelect').value);
+            } else if (questionType === 'text') {
+                answerOptions.push(document.getElementById('textAnswerInput').value);
+            }
+    
+            console.log('Въпрос:', questionText);
+            console.log('Тип въпрос:', questionType);
+            console.log('Отговори:', answerOptions);
+    
+            // Add logic for sending question to server here
+        });
+    </script>
+    
     <script type="module">
         import { enforcePageAccess } from "./role-guard.js";
         enforcePageAccess();
@@ -210,6 +274,27 @@
             fileInput.value = ''; // Изчистваме избора на файл
             alert('Файлът беше изтрит.');
         });
+        document.getElementById('question-type').addEventListener('change', function() {
+    var selectedType = this.value;
+    var multipleOptions = document.getElementById('multipleOptions');
+    var textAnswer = document.getElementById('textAnswer');
+    var trueFalseAnswer = document.getElementById('trueFalseAnswer');
+
+    // Скриване на всички секции
+    multipleOptions.style.display = 'none';
+    textAnswer.style.display = 'none';
+    trueFalseAnswer.style.display = 'none';
+
+    // Показване на съответната секция в зависимост от избора
+    if (selectedType === 'multiple') {
+        multipleOptions.style.display = 'block';
+    } else if (selectedType === 'text') {
+        textAnswer.style.display = 'block';
+    } else if (selectedType === 'truefalse') {
+        trueFalseAnswer.style.display = 'block';
+    }
+});
+
     </script>
     <script type="module" src="./add.question.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
