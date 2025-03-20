@@ -14,7 +14,22 @@ const firebaseConfig = {
 // Инициализиране на Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
+function showAlert(type, message) {
+    const alertDiv = document.createElement("div");
+    alertDiv.classList.add("alert", `alert-${type}`, "alert-dismissible", "fade", "show", "position-fixed", "top-0", "start-50", "translate-middle-x", "mt-3", "shadow");
+    alertDiv.setAttribute("role", "alert");
+    alertDiv.style.zIndex = "1050"; 
+    alertDiv.innerHTML = `
+        <strong>${type === "danger" ? "Грешка!" : "Успех!"}</strong> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    document.body.appendChild(alertDiv);
+    setTimeout(() => {
+        alertDiv.classList.remove("show");
+        alertDiv.classList.add("fade");
+        setTimeout(() => alertDiv.remove(), 500); // Изтриване след fade out
+    }, 5000);
+}
 document.addEventListener("DOMContentLoaded", async () => {
     const disciplineSelect = document.getElementById("discipline-select");
 
@@ -30,10 +45,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             option.textContent = courseData.disciplineName; // Име на дисциплината
             disciplineSelect.appendChild(option);
         });
-
-        console.log("📌 Заредени дисциплини:", disciplineSelect.innerHTML);
     } catch (error) {
-        console.error("❌ Грешка при зареждане на дисциплините:", error);
+        showAlert("danger", "Грешка при зареждането на дисциплините.");
     }
 });
 
@@ -46,7 +59,7 @@ document.getElementById("addQuestionBankForm").addEventListener("submit", async 
 
     // Проверка дали всички полета са попълнени
     if (!selectedDisciplineId || !questionBankName) {
-        alert("⚠️ Моля, попълнете всички полета.");
+        showAlert("warning", "Попълнете всички полета.");
         return;
     }
 
@@ -56,7 +69,7 @@ document.getElementById("addQuestionBankForm").addEventListener("submit", async 
         const courseSnapshot = await getDoc(courseRef);
 
         if (!courseSnapshot.exists()) {
-            alert("❌ Грешка: Дисциплината не съществува.");
+            showAlert("danger", "Дисциплината не е намерена.");
             return;
         }
 
@@ -78,13 +91,12 @@ document.getElementById("addQuestionBankForm").addEventListener("submit", async 
             questionBanks: questionBanks,
         });
 
-        console.log(`✅ Банка с въпроси "${questionBankName}" е добавена към ${courseData.disciplineName}`);
-        alert("✅ Банката с въпроси беше успешно създадена!");
+        showAlert("success",`Банка с въпроси "${questionBankName}" е добавена към ${courseData.disciplineName}`);
 
         // Презареждане на страницата
         location.reload();
     } catch (error) {
-        console.error("❌ Грешка при запазване на въпросната банка:", error);
-        alert("⚠️ Възникна грешка при запазването. Опитайте отново.");
+        showAlert("danger","❌ Грешка при запазване на въпросната банка:", error);
+        showAlert("warning","⚠️ Възникна грешка при запазването. Опитайте отново.");
     }
 });

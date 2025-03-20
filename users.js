@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, updateDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -10,145 +10,111 @@ const firebaseConfig = {
     messagingSenderId: "446759343746",
     appId: "1:446759343746:web:9025b482329802cc34069b",
     measurementId: "G-0K3X6WSL09"
-  };
-  
+};
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
-
- const userNameElement = document.getElementById('userName');
-        const userImageElement = document.getElementById('userImage');
-        const logoutButton = document.getElementById('logout');
-function displayUserInfo() {
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            try {
-                const userDoc = await getDoc(doc(db, "users", user.uid)); 
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    const firstName = userData.firstName || "Име";
-                    const lastName = userData.lastName || "Фамилия";
-                    const profilePic = userData.profilePic || "https://via.placeholder.com/40";
-
-                    const fullName = firstName && lastName 
-                        ? firstName + ' ' + lastName 
-                        : user.email;
-
-                    userNameElement.textContent = fullName;
-                    userImageElement.src = profilePic; // Използване на Base64 снимка
-                } else {
-                    userNameElement.textContent = user.email;
-                    userImageElement.src = "https://via.placeholder.com/40";
-                }
-
-                logoutButton.style.display = 'block';
-            } catch (error) {
-                console.error("Грешка при извличане на данни за потребителя:", error);
-            }
-        } else {
-            userNameElement.textContent = "Не сте влезли";
-            userImageElement.src = "https://via.placeholder.com/40";
-            logoutButton.style.display = 'none';
-        }
-    });
-}
-        logoutButton?.addEventListener('click', () => {
-            signOut(auth).then(() => {
-                console.log('Потребителят излезе');
-                window.location.href = 'login.html'; 
-            }).catch((error) => {
-                console.error('Грешка при излизане:', error);
-            });
-        });
-
-        displayUserInfo();
 const userTableBody = document.getElementById("userTableBody");
 
-const getUsers = async () => {
+// Зареждане на потребителите
+function showAlert(type, message) {
+    const alertDiv = document.createElement("div");
+    alertDiv.classList.add("alert", `alert-${type}`, "alert-dismissible", "fade", "show", "position-fixed", "top-0", "start-50", "translate-middle-x", "mt-3", "shadow");
+    alertDiv.setAttribute("role", "alert");
+    alertDiv.style.zIndex = "1050"; 
+    alertDiv.innerHTML = `
+        <strong>${type === "danger" ? "Грешка!" : "Успех!"}</strong> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    document.body.appendChild(alertDiv);
+    setTimeout(() => {
+        alertDiv.classList.remove("show");
+        alertDiv.classList.add("fade");
+        setTimeout(() => alertDiv.remove(), 500); // Изтриване след fade out
+    }, 5000);
+}
+async function getUsers() {
     try {
         const querySnapshot = await getDocs(collection(db, "users"));
+        userTableBody.innerHTML = ""; // Изчистване преди презареждане
+
         querySnapshot.forEach((doc) => {
             const userData = doc.data();
-            const userId = doc.id; 
+            const userId = doc.id;
             const userRow = document.createElement("tr");
+            userRow.dataset.id = userId;
 
-            const profilePic = userData.profilePic || "https://placehold.co/100x100"; // Ако няма снимка, използвай placeholder
+            const profilePic = userData.profilePic || "https://placehold.co/100x100";
 
             userRow.innerHTML = `
-                <td><img src="${profilePic}" alt="Профилна снимка" class="rounded-circle" width="100" height="100"></td>
-                <td>${userData.firstName}</td>
-                <td>${userData.lastName}</td>
-                <td>${userData.username}</td>
-                <td>${userData.email}</td>
-                <td>${userData.role}</td>
+                <td><img src="${profilePic}" alt="Профилна снимка" class="rounded-circle" width="50" height="50"></td>
+                <td contenteditable="false">${userData.firstName || "—"}</td>
+                <td contenteditable="false">${userData.lastName || "—"}</td>
+                <td contenteditable="false">${userData.username || "—"}</td>
+                <td contenteditable="false">${userData.email || "—"}</td>
+                <td contenteditable="false">${userData.role || "—"}</td>
                 <td>
-                    <select class="form-select role-select" data-user-id="${userId}">
-                        <option value="Администратор" ${userData.role === "Администратор" ? "selected" : ""}>Администратор</option>
-                        <option value="Студент" ${userData.role === "Студент" ? "selected" : ""}>Студент</option>
-                        <option value="Преподавател" ${userData.role === "Преподавател" ? "selected" : ""}>Преподавател</option>
-                        <option value="Суперадминистратор" ${userData.role === "Суперадминистратор" ? "selected" : ""}>Суперадминистратор</option>
-                    </select>
+                    <button class="btn btn-warning btn-sm edit-btn"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-info btn-sm save-btn" style="display:none;"><i class="bi bi-check"></i></button>
+                    <button class="btn btn-danger btn-sm delete-btn"><i class="bi bi-trash"></i></button>
+                    <button class="btn btn-primary btn-sm look-btn"><i class="bi bi-eye"></i></button>
                 </td>
             `;
 
             userTableBody.appendChild(userRow);
+
+            // Event Listeners за бутони
+            userRow.querySelector(".edit-btn").addEventListener("click", function () {
+                toggleEdit(userRow);
+            });
+
+            userRow.querySelector(".save-btn").addEventListener("click", async function () {
+                await updateUser(userId, userRow);
+            });
+
+            userRow.querySelector(".delete-btn").addEventListener("click", async function () {
+                if (confirm("Сигурни ли сте, че искате да изтриете този потребител?")) {
+                    await deleteDoc(doc(db, "users", userId));
+                    userRow.remove();
+                    showAlert("warning", `Потребителят с ID ${userId} беше изтрит.`);
+                }
+            });
         });
+
     } catch (error) {
-        console.error("Грешка при извличането на потребители: ", error);
+        showAlert("danger", error.message);
     }
-};
+}
 
+// Функция за редакция на ред
+function toggleEdit(row) {
+    const isEditable = row.cells[1].getAttribute("contenteditable") === "true";
 
-document.getElementById("save").addEventListener("click", () => {
-    const confirmModal = new bootstrap.Modal(document.getElementById("confirmModal"));
-    confirmModal.show();
-});
+    for (let i = 1; i <= 5; i++) {
+        row.cells[i].setAttribute("contenteditable", !isEditable);
+    }
 
-document.getElementById("confirmSave").addEventListener("click", async () => {
+    row.querySelector(".edit-btn").style.display = isEditable ? "inline-block" : "none";
+    row.querySelector(".save-btn").style.display = isEditable ? "none" : "inline-block";
+}
+
+// Функция за обновяване в Firestore
+async function updateUser(userId, row) {
     try {
-        const roleSelects = document.querySelectorAll(".role-select");
+        const updatedUser = {
+            firstName: row.cells[1].textContent.trim(),
+            lastName: row.cells[2].textContent.trim(),
+            username: row.cells[3].textContent.trim(),
+            email: row.cells[4].textContent.trim(),
+            role: row.cells[5].textContent.trim()
+        };
 
-        for (const select of roleSelects) {
-            const userId = select.getAttribute("data-user-id");
-            const newRole = select.value;
-
-            await updateDoc(doc(db, "users", userId), { role: newRole });
-        }
-
-        const confirmModal = bootstrap.Modal.getInstance(document.getElementById("confirmModal"));
-        confirmModal.hide();
-
-        const successAlert = document.getElementById("successAlert");
-        successAlert.style.display = "block";
+        await updateDoc(doc(db, "users", userId), updatedUser);
+        showAlert("success", "Данните на потребителя бяха успешно обновени.");
+        toggleEdit(row);
     } catch (error) {
-        console.error("Грешка при запазването на промените: ", error);
+       showAlert("danger", "Грешка при обновяването на потребителя.");
     }
-});
-
-const getRoleClass = (role) => {
-    switch (role.toLowerCase()) {
-        case "Администратор":
-            return "danger";
-        case "Студент":
-            return "info";
-        case "Преподавател":
-            return "warning";
-        case "Суперадминистратор":
-            return "success";
-        default:
-            return "secondary";
-    }
-};
-
+}
 getUsers();
-getRoleClass();
-
-    document.getElementById('export').addEventListener('click', function () {
-    const table = document.getElementById('userTableBody'); 
-    const ws = XLSX.utils.table_to_sheet(table);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Results");
-    XLSX.writeFile(wb, "all_users.xlsx");
-});
-document.getElementById("save").addEventListener('click', saveGrades);
