@@ -51,17 +51,22 @@ const selectedStudents = new Map();
 const selectedQuestions = new Map();
 
 // ✅ Функция за показване на Bootstrap alerts
+// ✅ Функция за показване на Bootstrap alerts
+// ✅ Функция за показване на Bootstrap alerts
 function showAlert(type, message) {
     const alertDiv = document.createElement("div");
 
+    // Почиствайте съобщението от специални символи и интервали, за да е валиден клас
+    const sanitizedMessage = message.replace(/[^a-zA-Z0-9-]/g, '').toLowerCase();
+
     // Добавяне само на валиден клас за типа на алерта (без интервали или специални символи)
-    alertDiv.classList.add("alert", `alert-${type}`, "alert-dismissible", "fade", "show", "position-fixed", "top-0", "start-50", "translate-middle-x", "mt-3", "shadow");
+    alertDiv.classList.add("alert", `alert-${sanitizedMessage}`, "alert-dismissible", "fade", "show", "position-fixed", "top-0", "start-50", "translate-middle-x", "mt-3", "shadow");
     
     alertDiv.setAttribute("role", "alert");
     alertDiv.style.zIndex = "1050"; 
 
     // Съобщението се добавя в HTML съдържанието, а не като CSS клас
-    alertDiv.innerHTML = `
+    alertDiv.innerHTML = `        
         <strong>${type === "danger" ? "Грешка!" : "Успех!"}</strong> ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     `;
@@ -74,6 +79,8 @@ function showAlert(type, message) {
         setTimeout(() => alertDiv.remove(), 500); // Изтриване след fade out
     }, 5000);
 }
+
+
 
 // ✅ Функция за изчистване на формуляра след успешен запис
 function clearForm() {

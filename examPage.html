@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Вашият custom CSS файл -->
      <link rel="stylesheet" href="examPage.css">
-    
 </head>
 <body>
     <header class="fixed-top w-100" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
@@ -36,66 +35,91 @@
             </nav>
         </div>
     </header>
+
     <main class="container mt-5 pt-5 flex-grow-1">
         <div class="row justify-content-between">
-            <!-- Главен контейнер за теста -->
-            <div class="col-lg-8 col-12 mb-4 order-lg-first">
+            <!-- Секция преди теста -->
+            <div id="pre-test-section" class="col-lg-8 col-12 mb-4 order-lg-first">
                 <div class="main-content p-4 bg-white rounded shadow-sm">
-                    <div class="header mb-4">
-                        <h4 class="text-primary">Дисциплина: </h4>
+                    <h2>Информация за теста</h2>
+                    <p>Дисциплина: <span id="test-discipline">Математика</span></p>
+                    <p>Брой въпроси: <span id="test-questions-count">20</span></p>
+                    <p>Време за изпълнение: <span id="test-duration">30</span> минути</p>
+                    <button id="start-test-button" class="btn btn-info">Започнете теста</button>
+                </div>
+            </div>
+
+            <!-- Секция с въпросите и теста (по подразбиране скрита) -->
+            <div id="test-section" class="row mb-4" style="display: none;">
+                <!-- Основно съдържание -->
+                <div class="col-lg-9 col-12 mb-4 order-lg-first">
+                    <div class="main-content p-4 bg-white rounded shadow-sm">
+                        <div class="question mb-4 fw-bold">
+                            <!-- Въпросите ще се зареждат тук чрез JavaScript -->
+                        </div>
+            
+                        <div class="answers mb-4">
+                            <!-- Тук ще се добавят възможните отговори -->
+                            <label><input type="radio" name="answer" value="1"> Отговор 1</label><br>
+                            <label><input type="radio" name="answer" value="2"> Отговор 2</label><br>
+                            <label><input type="radio" name="answer" value="3"> Отговор 3</label><br>
+                            <label><input type="radio" name="answer" value="4"> Отговор 4</label>
+                        </div>
+            
+                        <div class="navigation d-flex justify-content-between">
+                            <button class="btn btn-secondary">Предишен въпрос</button>
+                            <button class="btn btn-primary">Следващ въпрос</button>
+                        </div>
                     </div>
-    
-                    <div class="question mb-4 fw-bold">
-                        <!-- Тук ще се показва въпросът -->
-                        Каква е основната разлика между .bg-primary и .bg-gradient?
-                    </div>
-    
-                    <div class="answers mb-4">
-                        <!-- Тук ще се добавят възможните отговори -->
-                        <label><input type="radio" name="answer" value="1"> .bg-gradient използва преход между цветове, докато .bg-primary има само един цвят</label>
-                        <label><input type="radio" name="answer" value="2"> .bg-primary добавя рамка с основен цвят, а .bg-gradient – не</label>
-                        <label><input type="radio" name="answer" value="3"> .bg-gradient е достъпен само чрез JavaScript функции</label>
-                        <label><input type="radio" name="answer" value="4"> .bg-primary се използва само за текстов фон</label>
-                    </div>
-    
-                    <div class="navigation d-flex justify-content-between">
-                        <button class="btn btn-secondary">Предишен</button>
-                        <button class="btn btn-primary">Следващ</button>
+                </div>
+            
+                <!-- Боксове за странична лента -->
+                <div class="col-lg-3 col-12 mb-4 order-lg-last">
+                    <div class="sidebar p-4 bg-light rounded shadow-sm">
+                        <div class="timer mb-4">
+                            <span id="timeLeft">Оставащо време: Зареждане...</span>
+                        </div>
+                        <button class="end-test btn btn-danger w-100 mb-4">Край на теста</button>
+            
+                        <!-- Пагинация -->
+                        <div class="pagination-container">
+                            <nav>
+                                <ul class="pagination justify-content-center" id="pagination">
+                                    <!-- Пагинацията ще се генерира динамично -->
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            
+            
+    
+            <!-- Секция след теста (резултати) (по подразбиране скрита) -->
+            <div id="post-test-section" class="col-lg-8 col-12 mb-4 order-lg-first" style="display: none;">
+                <div class="main-content p-4 bg-white rounded shadow-sm">
+                    <h2>Вашите резултати</h2>
+                    <p>Изминало време: <span id="total-time"></span> минути</p>
+                    <p>Брой верни отговори: <span id="correct-answers"></span></p>
+                    <p>Обща оценка: <span id="test-score"></span> от <span id="total-questions"></span></p>
+                    <button id="restart-test-button" class="btn btn-secondary">Рестартирай теста</button>
+                </div>
+            </div>
+            
     
             <!-- Странична лента с таймер и пагинация -->
-            <div class="col-lg-3 col-12 mb-4 ">
-                <div class="sidebar p-4 bg-light rounded shadow-sm">
-                    <div class="timer mb-4">
-                        <span>Оставащо време: 10:00</span>
-                    </div>
-                    <button class="end-test btn btn-danger w-100 mb-4">Край на теста</button>
-    
-                    <!-- Пагинация -->
-                    <div class="pagination-container">
-                        <nav>
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item"><button class="page-link">1</button></li>
-                                <li class="page-item"><button class="page-link">2</button></li>
-                                <li class="page-item"><button class="page-link">3</button></li>
-                                <li class="page-item"><button class="page-link">4</button></li>
-                            
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </main>
-  <!-- Структурата на футъра -->
-<footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 999;">
-    <div class="container text-center">
-        <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
-        <hr class="my-3" style="border: 0; height: 3px; background: linear-gradient(135deg, #010e1c 0%, #013722 100%);">
-    </div>
-</footer>
+
+    <!-- Структурата на футъра -->
+    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 999;">
+        <div class="container text-center">
+            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
+            <hr class="my-3" style="border: 0; height: 3px; background: linear-gradient(135deg, #010e1c 0%, #013722 100%);">
+        </div>
+    </footer>
 
     <!-- Включване на Bootstrap JS и jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
