@@ -1,143 +1,67 @@
-/* Общи настройки за контейнера */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
+/* Основни стилове */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
 }
 
-/* Подобряване на заглавията */
-h2 {
+header {
+    background: linear-gradient(135deg, #034687 0%, #00c379 100%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
     font-size: 2rem;
-    color: #333;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1rem;
-}
-
-/* Анимации */
-.animate__fadeInUp {
-    animation: fadeInUp 1s ease-out;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Стилове за самата форма */
-.form-container {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    padding: 2rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-}
-
-.form-container:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* Подобряване на input и select елементите */
-.form-control, .form-select {
-    border-radius: 0.5rem;
-    box-shadow: none;
-    padding: 0.75rem;
-    font-size: 1rem;
-}
-
-.form-control:focus, .form-select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-/* Стилове за бутоните */
-.btn-primary {
-    background-color: #007bff;
-    border: none;
+    font-weight: bold;
     color: white;
-    font-weight: 600;
-    padding: 0.75rem;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05rem;
-    transition: all 0.3s ease;
-    border-radius: 0.5rem;
+    margin-bottom: 0;
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
+nav .dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.btn-primary:active {
-    transform: translateY(0);
+nav .dropdown-item {
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
-/* Стилове за профилна снимка */
-#profilePreview {
-    max-width: 100%;
-    border-radius: 50%;
-    border: 2px solid #ddd;
+nav .dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Адаптивни настройки за мобилни устройства */
+/* Мобилна адаптивност */
 @media (max-width: 768px) {
-    .container {
-        padding: 0 15px;
-    }
-
-    h2 {
-        font-size: 1.75rem;
-    }
-
-    .form-container {
-        padding: 1.5rem;
-    }
-
-    .form-control, .form-select {
-        font-size: 0.9rem;
-    }
-
-    .btn-primary {
-        font-size: 1rem;
-        padding: 0.65rem;
-    }
-}
-
-/* Адаптивност за по-малки екрани */
-@media (max-width: 576px) {
-    h2 {
+    header h1 {
         font-size: 1.5rem;
     }
 
-    .form-container {
-        padding: 1rem;
-    }
-
-    .form-control, .form-select {
-        font-size: 0.85rem;
-    }
-
-    .btn-primary {
-        font-size: 0.95rem;
-        padding: 0.55rem;
+    .container {
+        padding: 15px;
     }
 }
 
-/* За подравняване на текстовете в контейнера */
-.text-center {
-    text-align: center !important;
+/* Стилове за футъра */
+footer {
+    background: linear-gradient(135deg, #034687 0%, #00c379 100%);
+    color: white;
+    text-align: center;
 }
 
-/* Подобряване на анимациите за мобилни екрани */
-@media (max-width: 768px) {
-    .animate__animated {
-        animation-duration: 0.5s;
-    }
+footer .container {
+    max-width: 1200px;
+    padding: 10px 15px;
+}
+
+/* Събиране на основно съдържание */
+main {
+    margin-top: 80px; /* За да не се припокрива с хедъра */
+    margin-bottom: 80px; /* За да има място за футъра */
+}
+
+footer .container p {
+    margin-bottom: 0;
+    font-size: 1rem;
 }

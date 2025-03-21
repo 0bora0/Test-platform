@@ -1,60 +1,109 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-}
-
-.fixed-top {
+/* Хедър: адаптивност и стилизация */
+header {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
+    z-index: 999;
+}
+
+header h1 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+}
+
+header .dropdown-menu {
+    border-radius: 10px;
+}
+
+header .dropdown-toggle {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+header .dropdown-toggle:hover {
+    transform: scale(1.05);
+}
+
+/* Футър: адаптивност и стилизация */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: 999;
+    background: linear-gradient(135deg, #034687 0%, #00c379 100%);
 }
 
-.container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
+footer .container {
+    max-width: 1200px;
+    padding: 10px 15px;
 }
 
-h1 {
-    font-size: 1.5rem;
+/* Стилове за бутоните */
+.dropdown-item {
+    transition: background-color 0.3s ease;
 }
 
-nav {
-    display: flex;
-    align-items: center;
+.dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
-.dropdown-menu {
-    max-width: 200px;
-}
-
-/* Адаптивност */
+/* За мобилни устройства */
 @media (max-width: 768px) {
-    h1 {
-        font-size: 1.2rem;
-    }
-
-    .container {
-        flex-direction: column;
-        align-items: flex-start;
+    header h1 {
+        font-size: 1.5rem;
     }
 
     .dropdown-menu {
-        width: 100%;
+        max-width: 200px;
     }
 
-    .dropdown a {
-        display: block;
-        width: 100%;
+    footer .container {
+        padding: 15px 20px;
     }
 }
 
+/* За много малки екрани (мобилни устройства) */
+@media (max-width: 576px) {
+    header h1 {
+        font-size: 1.25rem;
+    }
+
+    .dropdown-menu {
+        max-width: 180px;
+    }
+
+    footer .container {
+        padding: 10px;
+    }
+}
+
+/* Допълнителни стилизации */
+body {
+    margin-top: 70px; /* За да не се припокрива хедъра със съдържанието */
+    padding-bottom: 70px; /* За да не се припокрива футъра със съдържанието */
+}
+
+main {
+    padding-top: 90px; /* За да не се припокрива хедъра с основното съдържание */
+    padding-bottom: 60px; /* За да има място за футъра */
+}
+
+/* Добавяне на анимации на хедъра */
+@keyframes fadeInHeader {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+header {
+    animation: fadeInHeader 0.5s ease-out;
+}

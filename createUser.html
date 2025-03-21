@@ -8,15 +8,30 @@
 <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=79387&format=png&color=000000" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="createUser.css">
+    <link rel="stylesheet" href="headerFooterStyle.css">
     
 </head>
 <body>
-    <header>
-        <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="text-white"><a href="login.html" class="fs-4">Тестова платформа</a></h1>
+    <header class="w-100">
+        <div class="container py-3 d-flex justify-content-between align-items-center">
+            <h1 class="h3 text-white">Тестова платформа</h1>
             <nav>
-                <a href="login.html" class="me-3">Вход</a>
-                <a href="register.html">Регистрация</a>
+                <div class="dropdown">
+                    <a href="#" class="text-decoration-none dropdown-toggle text-white" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img id="userImage" src="https://via.placeholder.com/40" alt="Потребител" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                        <span id="userName" class="text-white">Зареждане...</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="profile.html">Начало</a></li>
+                        <li><a class="dropdown-item" href="index1.html">Тестове</a></li>
+                        <li><a class="dropdown-item" href="users.html">Регистрирани потребители</a></li>
+                        <li><a class="dropdown-item" href="edit.html">Редактиране на профил</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="login.html" id="logout">Изход</a></li>
+                    </ul>
+                </div>
             </nav>
         </div>
     </header>
@@ -131,21 +146,9 @@
         </div>
     </div>
 
-    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+    <footer class="py-4" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
         <div class="container text-center">
-            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
-            <hr class="my-3" style="border: 0; height: 3px; background: linear-gradient(135deg, #010e1c 0%, #013722 100%);">
-            <div>
-                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
-                    <i class="bi bi-instagram fs-2"></i>
-                </a>
-                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
-                    <i class="bi bi-facebook fs-2"></i>
-                </a>
-                <a href="https://www.linkedin.com" target="_blank" class="text-white">
-                    <i class="bi bi-linkedin fs-2"></i>
-                </a>
-            </div>
+            <p class="text-white mb-0">&copy; 2025 Тестова платформа. Всички права запазени.</p>
         </div>
     </footer>
     <script type="module" src="createUser.js"></script>
