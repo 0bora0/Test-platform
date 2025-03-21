@@ -5,29 +5,60 @@
     <title>Наблюдение на тестовете</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js"></script>
 </head>
-<body class="container mt-5">
-    <div class="container mt-4">
-        <h2 class="mb-3">Ненаправени тестове</h2>
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Профилна снимка</th>
-                    <th>Име</th>
-                    <th>Фамилия</th>
-                    <th>Дисциплина</th>
-                    <th>Брой въпроси</th>
-                    <th>Оставащо време</th>
-                    <th>Действия</th>
-                </tr>
-            </thead>
-            <tbody id="usersTableBody">
-            </tbody>
-        </table>
+<header class="fixed-top w-100" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+    <div class="container d-flex justify-content-between align-items-center py-3">
+        <h1 class="h3 text-white">Тестова платформа</h1>
+        <nav class="d-flex align-items-center">
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-white"
+                    id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img id="userImage" src="https://via.placeholder.com/40" alt="Потребител"
+                        class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                    <span id="userName" class="me-2">Зареждане...</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="profile.html">Начало</a></li>
+                    <li><a class="dropdown-item" href="index1.html">Тестове</a></li>
+                    <li><a class="dropdown-item" href="users.html">Регистрирани потребители</a></li>
+                    <li><a class="dropdown-item" href="edit.html">Редактиране на профил</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item text-danger" href="login.html" id="logout">Изход</a></li>
+                </ul>
+            </div>
+        </nav>
     </div>
+</header>
+<body class="container mt-5">
 
+    <main class="container mt-5 pt-5">
+        <div class="container mt-4">
+            <h2 class="mb-3">Текущи тестове по дисциплината</h2>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Профилна снимка</th>
+                        <th>Име</th>
+                        <th>Фамилия</th>
+                        <th>Дисциплина</th>
+                        <th>Брой въпроси</th>
+                        <th>Време за теста</th>
+                        <th>Действия</th>
+                        <th>Завършен</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container text-center">
+            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
+        </div>
+    </footer>
 <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js"></script>
@@ -37,4 +68,5 @@
 
     
 </body>
+
 </html>

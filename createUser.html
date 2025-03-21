@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Създаване на потребител</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=79387&format=png&color=000000" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="createUser.css">
+    
+</head>
+<body>
+    <header>
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="text-white"><a href="login.html" class="fs-4">Тестова платформа</a></h1>
+            <nav>
+                <a href="login.html" class="me-3">Вход</a>
+                <a href="register.html">Регистрация</a>
+            </nav>
+        </div>
+    </header>
+    <div class="container mb-3 pt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-10 mx-auto">
+                <section id="register">
+                    <h2 class="text-center mb-4 animate__animated animate__fadeInUp">Създаване на нов потребител</h2>
+                    <form id="registrationForm" class="bg-light p-4 shadow-lg rounded-lg form-container animate__animated animate__fadeIn">
+                        <div class="mb-4 text-center">
+                            <label for="profilePicture" class="form-label">Профилна снимка:</label>
+                            <div>
+                                <img id="profilePreview" src="https://placehold.co/100x100" alt="Профилна снимка" class="rounded-circle border" width="100" height="100">
+                            </div>
+                            <input type="file" id="profilePicture" accept="image/*" class="form-control mt-2">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">Име:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input type="text" id="firstName" class="form-control transition-transform" required>
+                            </div>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Фамилия:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                                <input type="text" id="lastName" class="form-control transition-transform" required>
+                            </div>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Потребителско име:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                                <input type="text" id="username" class="form-control transition-transform" required>
+                            </div>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Имейл:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input type="email" id="email" class="form-control transition-transform" required>
+                            </div>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Парола:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" id="password" class="form-control transition-transform" required>
+                            </div>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Роля:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-eyeglasses"></i></span>
+                                <select id="role" class="form-select transition-transform" required>
+                                    <option value="Студент">Студент</option>
+                                    <option value="Преподавател">Преподавател</option>
+                                    <option value="Администратор">Администратор</option>
+                                    <option value="Суперадминистратор">Суперадминистратор</option>
+                                </select>
+                            </div>
+                        </div>
+            
+                        <button type="submit" class="btn btn-primary w-100 mt-3 shadow-sm hover-zoom fs-5">Регистрация <i class="bi bi-check-circle"></i></button>
+                        <div class="text-center mt-4">
+                            <a href="login.html" class="text-decoration-none">Имате профил? Влезте и продължете</a>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Успешна регистрация</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Регистрацията Ви е успешна! Можете да влезете в профила си, за да продължите!
+                </div>
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-primary" data-bs-dismiss="modal" href="login.html">Затвори</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Неуспешна регистрация!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Възникна грешка при регистрация! Моля, проверете си данните и опитайте отново!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+        <div class="container text-center">
+            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
+            <hr class="my-3" style="border: 0; height: 3px; background: linear-gradient(135deg, #010e1c 0%, #013722 100%);">
+            <div>
+                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-instagram fs-2"></i>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
+                    <i class="bi bi-facebook fs-2"></i>
+                </a>
+                <a href="https://www.linkedin.com" target="_blank" class="text-white">
+                    <i class="bi bi-linkedin fs-2"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="createUser.js"></script>
+    <script src="loader.js" type="module">
+        import { withLoader } from './loader.js';
+         withLoader(fetchData);
+     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

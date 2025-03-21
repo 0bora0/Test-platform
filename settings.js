@@ -51,11 +51,28 @@ const selectedStudents = new Map();
 const selectedQuestions = new Map();
 
 // ✅ Функция за показване на Bootstrap alerts
-function showAlert(message, type) {
-    alertBox.innerHTML = `<div class="alert alert-dismissible ${type} fade show" role="alert">
-        ${message}
+function showAlert(type, message) {
+    const alertDiv = document.createElement("div");
+
+    // Добавяне само на валиден клас за типа на алерта (без интервали или специални символи)
+    alertDiv.classList.add("alert", `alert-${type}`, "alert-dismissible", "fade", "show", "position-fixed", "top-0", "start-50", "translate-middle-x", "mt-3", "shadow");
+    
+    alertDiv.setAttribute("role", "alert");
+    alertDiv.style.zIndex = "1050"; 
+
+    // Съобщението се добавя в HTML съдържанието, а не като CSS клас
+    alertDiv.innerHTML = `
+        <strong>${type === "danger" ? "Грешка!" : "Успех!"}</strong> ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>`;
+    `;
+
+    document.body.appendChild(alertDiv);
+
+    setTimeout(() => {
+        alertDiv.classList.remove("show");
+        alertDiv.classList.add("fade");
+        setTimeout(() => alertDiv.remove(), 500); // Изтриване след fade out
+    }, 5000);
 }
 
 // ✅ Функция за изчистване на формуляра след успешен запис
@@ -78,14 +95,11 @@ async function loadDisciplines() {
 
     try {
         const querySnapshot = await getDocs(collection(db, "courses"));
-        console.log(`✅ Намерени дисциплини: ${querySnapshot.size}`);
-
         for (const doc of querySnapshot.docs) {
             const course = doc.data();
-            console.log("📄 Документ:", doc.id, course);
 
             if (!course.disciplineName) {
-                console.warn(`⚠️ Липсващо поле "disciplineName" в документ ${doc.id}`);
+                showAlert("warning",`Грешка при зареждане на дисциплините: Не е намерена дисциплина с ID: ${doc.id}`);
                 continue;
             }
 
@@ -97,7 +111,6 @@ async function loadDisciplines() {
 
         console.log("✅ Дисциплините са добавени успешно!");
     } catch (error) {
-        console.error("❌ Грешка при зареждане на дисциплините:", error);
         showAlert("❌ Грешка при зареждане на дисциплините!", "alert-danger");
     }
 }
@@ -255,11 +268,7 @@ async function saveTest(event) {
         showAlert("⚠️ Попълнете всички полета и изберете поне един студент и един въпрос!", "alert-warning");
         return;
     }
-
-    // Взимаме името на избраната дисциплина
     const selectedDisciplineName = disciplineSelect.selectedOptions[0].textContent;
-
-    // Попълваме обекта с данни
     const testData = {
         discipline: {
             id: disciplineSelect.value,
@@ -283,9 +292,6 @@ async function saveTest(event) {
         showAlert("❌ Грешка при записване в базата!", "alert-danger");
     }
 }
-
-
-// ✅ Слушатели за събития
 disciplineSelect.addEventListener("change", loadQuestionBanks);
 questionBankSelect.addEventListener("change", loadQuestions);
 document.addEventListener("DOMContentLoaded", loadDisciplines);

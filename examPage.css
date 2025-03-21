@@ -1,0 +1,155 @@
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #ff4d4f;
+    --neutral-color: #333;
+    --bg-light: #f7f7f7;
+    --font-size-base: 1.6rem;
+    --font-size-large: 2rem;
+    --button-radius: 8px;
+    --transition-duration: 0.3s;
+}
+
+/* Стили за главния контейнер и отговорите */
+.main-content {
+    height: 100%;
+    max-height: 800px;
+    min-height: 400px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.header h4 {
+    font-size: var(--font-size-large);
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.question {
+    font-size: var(--font-size-base);
+    color: var(--neutral-color);
+    margin-bottom: 20px;
+}
+
+.answers {
+    margin-bottom: 20px;
+}
+
+.answers label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: #555;
+    cursor: pointer;
+    transition: color var(--transition-duration) ease;
+}
+
+.answers label:hover {
+    color: var(--primary-color);
+}
+
+.navigation button {
+    font-size: 1.2rem;
+    padding: 12px;
+    border-radius: var(--button-radius);
+    transition: background-color var(--transition-duration) ease;
+}
+
+.navigation button:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+/* Стили за страничната лента */
+.sidebar {
+    height: auto;
+    padding: 25px;
+    background-color: var(--bg-light);
+    border-radius: 20px;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+}
+
+.timer {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.end-test {
+    font-size: 1.4rem;
+    padding: 15px 0;
+    background-color: var(--secondary-color);
+    color: #fff;
+    border-radius: var(--button-radius);
+    border: none;
+    transition: background-color var(--transition-duration) ease;
+}
+
+.end-test:hover {
+    background-color: #c43b3b;
+}
+
+.pagination-container {
+    text-align: center;
+}
+
+.pagination .page-item .page-link {
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    background-color: #e9ecef;
+    border: none;
+    transition: background-color var(--transition-duration) ease;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+/* Адаптивност с Bootstrap */
+@media (max-width: 992px) {
+    .main-content {
+        margin-bottom: 20px;
+    }
+
+    .sidebar {
+        margin-top: 20px;
+    }
+
+    .navigation button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .pagination .page-item .page-link {
+        padding: 10px 20px;
+        font-size: 1.1rem;
+    }
+
+    /* Промяна на реда на съдържанието при по-малки екрани */
+    .order-lg-first {
+        order: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        font-size: 1.4rem;
+    }
+
+    .sidebar {
+        padding: 15px;
+    }
+
+    .end-test {
+        font-size: 1.3rem;
+        padding: 12px 0;
+    }
+
+    .pagination .page-item .page-link {
+        font-size: 1rem;
+        padding: 10px 15px;
+    }
+}

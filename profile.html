@@ -8,11 +8,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=52234&format=png&color=000000"
         type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+   
+
 </head>
 
 <body>
@@ -54,7 +56,7 @@
                     <h3 class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">Общо потребители
                     </h3>
                     <p id="userCount" class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">
-                        Loading...</p>
+                        Зареждане...</p>
                     <i class="fas fa-users fa-3x text-white animate__animated animate__bounceIn"></i>
                 </div>
             </div>
@@ -63,7 +65,7 @@
                     style="background-color: #4fdea5;">
                     <h3 class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">Общо оценки</h3>
                     <p id="gradeCount" class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">
-                        Loading...</p>
+                        Зареждане...</p>
                     <i class="fas fa-scroll fa-3x text-white animate__animated animate__bounceIn"></i>
 
 
@@ -74,7 +76,7 @@
                     style="background-color: #68dc41;">
                     <h3 class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">Резултати</h3>
                     <p id="resultCount" class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">
-                        Loading...</p>
+                        Зареждане...</p>
                     <i class="fas fa-trophy fa-3x text-white animate__animated animate__bounceIn"></i>
 
                 </div>
@@ -84,7 +86,7 @@
                     style="background-color: #a728a5;">
                     <h3 class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">Студенти</h3>
                     <p id="studentCount" class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">
-                        Loading...</p>
+                        Зареждане...</p>
                     <i class="fas fa-user-graduate fa-3x text-white animate__animated animate__bounceIn"></i>
                 </div>
             </div>
@@ -94,7 +96,7 @@
                     <h3 class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">Потребители с
                         пълни права</h3>
                     <p id="averageScore" class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">
-                        Loading...</p>
+                        Зареждане...</p>
                     <i class="fas fa-user-shield fa-3x text-white animate__animated animate__bounceIn"></i>
                 </div>
             </div>
@@ -103,7 +105,7 @@
                     style="background-color: #17a2b8;">
                     <h3 class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">Общо въпроси</h3>
                     <p id="testCount" class="fs-4 text-white text-center fw-bold animate__animated animate__fadeIn">
-                        Loading...</p>
+                        Зареждане...</p>
                     <i class="fas fa-question-circle fa-3x text-white animate__animated animate__bounceIn"></i>
                 </div>
             </div>
@@ -122,13 +124,30 @@
                                 </a>
                                 <p class="operation-description">Добавете нови въпроси към тестовете, които ще бъдат използвани за проверка на знанията на студентите.</p>
                             </div>
+                            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                                <a href="add_question.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                    <span class="fs-5 text-center">Създаване на потребител</span>
+                                    <i class="fas fa-id-card-alt fs-3"></i>
+                                </a>
+                                <p class="operation-description">С тази операция може да създадете потребител в Тестовата система.</p>
+                            </div>
         
                             <div class="col-lg-4 col-md-6 col-12 mb-3">
                                 <a href="settings.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
-                                    <span class="fs-5 text-center">Настройки и наблюдения върху теста</span>
-                                    <i class="fas fa-solid fa-gears"></i>
+                                    <span class="fs-5 text-center">Създаване на тест</span>
+                                    <i class="fas fa-plus"></i>
                                 </a>
-                                <p class="operation-description">Можете да наблюдавате тестовете на учениците/студентите в реално време, както и да преглеждате резултатите им.</p>
+                                <p class="operation-description">Можете да настройвате тестове, да избирате банка с въпроси, добавяне на участници и др.</p>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12 mb-3">
+                                <a href="admin.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                    <span class="fs-5 text-center">Текущи тестове</span>
+                                    <i class="fas fa-spinner fa-spin fs-3"></i>
+
+
+                                </a>
+                                <p class="operation-description">Преглед на текущите тестове, които са създадени.</p>
                             </div>
         
                             <div class="col-lg-4 col-md-6 col-12 mb-3">
@@ -148,7 +167,7 @@
                             </div>
         
                             <div class="col-lg-4 col-md-6 col-12 mb-3">
-                                <a href="index1.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
+                                <a href="examPage.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
                                     <span class="fs-5 text-center">Стартиране на тест</span>
                                     <i class="fas fa-play-circle fs-3"></i>
                                 </a>
@@ -166,7 +185,8 @@
                             <div class="col-lg-4 col-md-6 col-12 mb-3">
                                 <a href="preview.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
                                     <span class="fs-5 text-center">Крайни резултати</span>
-                                    <i class="fas fa-star fs-3"></i>
+                                    <i class="fas fa-trophy fs-3"></i>
+
                                 </a>
                                 <p class="operation-description">В тази секция може да прегледате опитите от тестовете на студентите, които са получили крайна оценка.</p>
                             </div>
@@ -174,7 +194,8 @@
                             <div class="col-lg-4 col-md-6 col-12 mb-3">
                                 <a href="edit_question.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
                                     <span class="fs-5 text-center">Редактиране на въпрос</span>
-                                    <i class="fas fa-user-edit fs-3"></i>
+                                    <i class="fas fa-pencil-alt fs-3"></i>
+
                                 </a>
                                 <p class="operation-description">С тази операция може да редактирате даден въпрос от банката с въпроси и след запазването на промените, въпросът ще бъде редактиран в базата данни.</p>
                             </div>
@@ -188,7 +209,8 @@
                             <div class="col-lg-4 col-md-6 col-12 mb-3">
                                 <a href="add_users.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-pill hover-item transition-transform">
                                     <span class="fs-5 text-center">Добавяне на потребители към курс</span>
-                                    <i class="fa-solid fa-vault fs-3"></i>
+                                    <i class="fas fa-user-plus fs-3"></i>
+
                                 </a>
                                 <p class="operation-description">С тази операция може да добавите потребители в курса.</p>
                             </div>

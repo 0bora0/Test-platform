@@ -83,7 +83,7 @@ async function getUsers() {
         });
 
     } catch (error) {
-        showAlert("danger", error.message);
+        showAlert("danger", "Грешка при зареждане на потребителите!", error);
     }
 }
 
@@ -98,8 +98,6 @@ function toggleEdit(row) {
     row.querySelector(".edit-btn").style.display = isEditable ? "inline-block" : "none";
     row.querySelector(".save-btn").style.display = isEditable ? "none" : "inline-block";
 }
-
-// Функция за обновяване в Firestore
 async function updateUser(userId, row) {
     try {
         const updatedUser = {
