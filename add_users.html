@@ -11,55 +11,69 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="users.css">
-    <style>
-   
-    body {
-        background: #f8f9fa;
-    }
-    
-    .card {
-        background-color: #fff;
-        padding: 20px;
-        margin-top: 70px;
-    }
-    
-    .btn {
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-    
-    .btn:hover {
-        transform: translateY(-2px);
-    }
-    
-    .form-select, .form-control {
-        border-radius: 10px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .form-select:focus, .form-control:focus {
-        border-color: #0056b3;
-        box-shadow: 0 0 0 0.25rem rgba(38, 143, 255, 0.5);
-    }
-
-    .card-body {
-        padding: 30px;
-    }
-
-    @media (max-width: 768px) {
-        .card {
-            margin: 10px;
+   <style>
+        body {
+            background: linear-gradient(135deg, #16213e, #1a1a2e);
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-    }
 
+        header {
+            background: linear-gradient(135deg, #034687, #00c379);
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+            
+        }
+
+        main {
+            padding-top: 100px;
+            flex-grow: 1;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            padding: 12px;
+        }
+
+        .btn {
+            font-weight: bold;
+            border-radius: 30px;
+            transition: all 0.4s ease-in-out;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff512f, #dd2476);
+            color: #ffffff;
+            border: none;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #034687, #00c379);
+            text-align: center;
+            padding: 15px 0;
+            margin-top: auto;
+        }
     </style>
+    
 </head>
 
-<body class="d-flex flex-column" style="min-height: 100vh;">
-    <header class="fixed-top w-100" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
+<body class="d-flex flex-column">
+    <header class="fixed-top w-100">
         <div class="container d-flex justify-content-between align-items-center py-3">
-            <h1 class="h3 text-white">Тестова платформа</h1>
-            <nav class="d-flex align-items-center">
+            <h1 class="h3 text-white"><i class="bi bi-book"></i> Тестова платформа</h1>
+            <nav>
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-white"
                         id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -67,71 +81,66 @@
                             class="rounded-circle me-2" style="width: 40px; height: 40px;">
                         <span id="userName" class="me-2">Зареждане...</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="profile.html">Начало</a></li>
-                        <li><a class="dropdown-item" href="index1.html">Тестове</a></li>
-                        <li><a class="dropdown-item" href="users.html">Регистрирани потребители</a></li>
-                        <li><a class="dropdown-item" href="edit.html">Редактиране на профил</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li><a class="dropdown-item" href="profile.html"><i class="bi bi-house-door"></i> Начало</a></li>
+                        <li><a class="dropdown-item" href="index1.html"><i class="bi bi-file-earmark-text"></i> Тестове</a></li>
+                        <li><a class="dropdown-item" href="users.html"><i class="bi bi-people"></i> Потребители</a></li>
+                        <li><a class="dropdown-item" href="edit.html"><i class="bi bi-pencil-square"></i> Редактиране</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item text-danger" href="login.html" id="logout">Изход</a></li>
+                        <li><a class="dropdown-item text-danger" href="login.html"><i class="bi bi-box-arrow-right"></i> Изход</a></li>
                     </ul>
                 </div>
             </nav>
         </div>
     </header>
-    <div id="alert-box"></div>
-    <main class="container py-4">
+
+    <main class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
-                <div class="card shadow-lg border-0 rounded">
+                <div class="card">
                     <div class="card-body">
-                        <h2 class="text-center mb-4">Създаване на дисциплина</h2>
-                        
+                        <h2 class="text-center mb-4"><i class="bi bi-plus-circle"></i> Създаване на дисциплина</h2>
+
                         <div class="mb-3">
-                            <label for="discipline-name" class="form-label fw-bold">Име на дисциплина:</label>
-                            <input type="text" id="discipline-name" class="form-control" placeholder="Въведете име на дисциплина" required>
+                            <label class="form-label fw-bold">Име на дисциплина:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                                <input type="text" class="form-control" placeholder="Въведете име" required>
+                            </div>
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="course-select" class="form-label fw-bold">Курс:</label>
-                            <select id="course-select" class="form-select" required>
-                                <option value="" disabled selected>Изберете курс</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                            </select>
+                            <label class="form-label fw-bold">Курс:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-award"></i></span>
+                                <select class="form-select" required>
+                                    <option value="" disabled selected>Изберете курс</option>
+                                    <option>1</option><option>2</option><option>3</option><option>4</option>
+                                </select>
+                            </div>
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="student-select" class="form-label fw-bold">Избери студенти:</label>
-                            <select id="student-select" class="form-select" required>
-                                <!-- Студентите ще се зареждат динамично -->
-                            </select>
+                            <label class="form-label fw-bold">Избери студенти:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-plus"></i></span>
+                                <select class="form-select" required></select>
+                            </div>
                         </div>
-                        
-                        <button id="add-student" class="btn btn-primary w-100">Добави</button>
-                        <div id="student-list" class="mt-3"></div>
-                        
-                        <button id="create-discipline" class="btn btn-success w-100 mt-3">Създаване на курс</button>
+
+                        <button class="btn btn-primary w-100"><i class="bi bi-plus-lg"></i> Добави</button>
+                        <button class="btn btn-success w-100 mt-3"><i class="bi bi-check-lg"></i> Създаване на курс</button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="bg-light py-3 mt-auto" style="background: linear-gradient(135deg, #034687 0%, #00c379 100%);">
-        <div class="container text-center">
-            <p class="text-white mb-2">&copy; 2025 Тестова платформа. Всички права запазени.</p>
-        </div>
+    <footer>
+        <p>&copy; 2025 Тестова платформа. Всички права запазени.</p>
     </footer>
-
-   <script type="module" src="add_users.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

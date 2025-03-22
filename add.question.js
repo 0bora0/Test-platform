@@ -51,10 +51,8 @@ async function processExcel(file) {
 
         let successfulUploads = 0;
         let failedUploads = 0;
-
-        // Получаваме избраната дисциплина и банка с въпроси от HTML
-        const disciplineId = document.getElementById("discipline-select").value; // ID на дисциплината
-        const questionBankIndex = document.getElementById("questionBank-select").value; // Избран индекс на банката с въпроси
+        const disciplineId = document.getElementById("discipline-select").value; 
+        const questionBankIndex = document.getElementById("questionBank-select").value; 
 
         if (!disciplineId || !questionBankIndex) {
             alert("Моля, изберете дисциплина и банка с въпроси.");
@@ -78,7 +76,7 @@ async function processExcel(file) {
                 return;
             }
 
-            const selectedBank = questionBanks[questionBankIndex]; // Избиране на съответната банка с въпроси
+            const selectedBank = questionBanks[questionBankIndex]; 
 
             for (const row of json) {
                 if (!row.Въпрос || !row.Отговор1 || !row.Отговор2 || !row.Отговор3 || !row.Отговор4 || row.Верен === undefined) {
@@ -98,14 +96,12 @@ async function processExcel(file) {
 
                 const correctAnswer = options[correctIndex];
 
-                // Добавяне на въпроса в избраната банка с въпроси
                 selectedBank.questions.push({
                     question: row.Въпрос,
                     options,
                     correctAnswer
                 });
 
-                // Обновяване на дисциплината с новия въпрос в съответната банка
                 try {
                     await updateDoc(courseRef, {
                         questionBanks: questionBanks
@@ -149,7 +145,7 @@ function displayUserInfo() {
                         : user.email;
 
                     userNameElement.textContent = fullName;
-                    userImageElement.src = profilePic; // Използване на Base64 снимка
+                    userImageElement.src = profilePic;
                 } else {
                     userNameElement.textContent = user.email;
                     userImageElement.src = "https://via.placeholder.com/40";
@@ -181,14 +177,14 @@ form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const questionRaw = document.getElementById("question").value;
-    const question = encodeURIComponent(questionRaw); // Кодиране на HTML таговете
+    const question = encodeURIComponent(questionRaw); 
     const option1 = document.getElementById("option1").value;
     const option2 = document.getElementById("option2").value;
     const option3 = document.getElementById("option3").value;
     const option4 = document.getElementById("option4").value;
     const correctIndex = parseInt(document.getElementById("correct").value);
-    const disciplineId = document.getElementById("discipline-select").value; // Получаваме ID на дисциплината
-    const questionBankIndex = document.getElementById("questionBank-select").value; // Избран индекс на банката с въпроси
+    const disciplineId = document.getElementById("discipline-select").value;
+    const questionBankIndex = document.getElementById("questionBank-select").value; 
 
     const options = [option1, option2, option3, option4];
 
@@ -200,7 +196,6 @@ form.addEventListener("submit", async (e) => {
     const correctAnswer = options[correctIndex];
 
     try {
-        // Вземаме избраната дисциплина и съответната банка с въпроси
         const courseRef = doc(db, "courses", disciplineId);
         const courseSnapshot = await getDoc(courseRef);
 
@@ -217,20 +212,16 @@ form.addEventListener("submit", async (e) => {
             return;
         }
 
-        // Добавяме новия въпрос в избраната банка
         const selectedBank = questionBanks[questionBankIndex];
         selectedBank.questions.push({
             question,
             options,
             correctAnswer
         });
-
-        // Обновяваме дисциплината с новия въпрос в съответната банка
         await updateDoc(courseRef, {
             questionBanks: questionBanks
         });
         alert("Въпросът беше успешно добавен в банката с въпроси!");
-        // Изчистваме формата
         form.reset();
     } catch (error) {
         console.error("Грешка при добавяне на въпрос:", error);
@@ -246,19 +237,16 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
         try {
-            // Извличане на дисциплините от Firestore
+
             const coursesRef = collection(db, "courses");
             const querySnapshot = await getDocs(coursesRef);
-
-            // Изчистваме старите опции в селект полето
             disciplineSelect.innerHTML = '<option value="">-- Изберете дисциплина --</option>';
 
-            // Добавяне на нови опции за дисциплините
             querySnapshot.forEach(doc => {
                 const courseData = doc.data();
                 const option = document.createElement("option");
-                option.value = doc.id; // ID на курса
-                option.textContent = courseData.disciplineName; // Име на дисциплината
+                option.value = doc.id; 
+                option.textContent = courseData.disciplineName;
                 disciplineSelect.appendChild(option);
             });
 
@@ -267,7 +255,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Функция за зареждане на банките с въпроси
     async function loadQuestionBanks(disciplineId) {
         const questionBankSelect = document.getElementById("questionBank-select");
 
@@ -277,13 +264,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (!disciplineId) {
-            // Ако няма избрана дисциплина, не зареждаме банки с въпроси
+
             questionBankSelect.innerHTML = '<option value="">-- Изберете банка с въпроси --</option>';
             return;
         }
 
         try {
-            // Извличане на курса, свързан с избраната дисциплина
             const courseRef = doc(db, "courses", disciplineId);
             const courseSnapshot = await getDoc(courseRef);
 
@@ -293,19 +279,13 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             const courseData = courseSnapshot.data();
-
-            // Уверяваме се, че "questionBanks" е масив и обработваме данните
             if (Array.isArray(courseData.questionBanks)) {
                 const questionBanks = courseData.questionBanks;
-
-                // Изчистваме старите опции
                 questionBankSelect.innerHTML = '<option value="">-- Изберете банка с въпроси --</option>';
-
-                // Добавяне на нови опции за банките с въпроси
                 questionBanks.forEach((bank, index) => {
                     const option = document.createElement("option");
-                    option.value = index; // Може да използваме индекса на банката като стойност
-                    option.textContent = bank.name; // Името на банката с въпроси
+                    option.value = index;
+                    option.textContent = bank.name; 
                     questionBankSelect.appendChild(option);
                 });
             } else {
@@ -317,13 +297,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Събитие за променяне на избраната дисциплина
     document.getElementById("discipline-select").addEventListener("change", (e) => {
         const selectedDisciplineId = e.target.value;
         loadQuestionBanks(selectedDisciplineId);
     });
 
-    // Инициализация при зареждане на страницата
     loadDisciplines();
 });
 

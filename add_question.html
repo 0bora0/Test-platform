@@ -199,15 +199,15 @@
      <script>
           function downloadFile() {
              const link = document.createElement('a');
-             link.href = './template_upload_questions.xlsx'; // Replace with your file's URL
-             link.download = 'example.xlsx'; // This is the filename that will be saved
+             link.href = './template_upload_questions.xlsx'; 
+             link.download = 'example.xlsx'; 
              document.body.appendChild(link);
              link.click();
              document.body.removeChild(link);
          }
          document.getElementById('clearFile').addEventListener('click', function() {
              const fileInput = document.getElementById('fileInput');
-             fileInput.value = ''; // Изчистваме избора на файл
+             fileInput.value = ''; 
              alert('Файлът беше изтрит.');
          });
      </script>
