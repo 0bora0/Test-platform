@@ -9,7 +9,6 @@ const firebaseConfig = {
     appId: "1:446759343746:web:9025b482329802cc34069b",
     measurementId: "G-0K3X6WSL09"
   };
-// Инициализиране на Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 function showAlert(type, message) {
@@ -32,7 +31,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const disciplineSelect = document.getElementById("discipline-select");
 
     try {
-        // Зареждаме дисциплините от "courses"
         const coursesRef = collection(db, "courses");
         const querySnapshot = await getDocs(coursesRef);
 
@@ -40,29 +38,24 @@ document.addEventListener("DOMContentLoaded", async () => {
             const courseData = doc.data();
             const option = document.createElement("option");
             option.value = doc.id; // ID на курса
-            option.textContent = courseData.disciplineName; // Име на дисциплината
+            option.textContent = courseData.disciplineName;
             disciplineSelect.appendChild(option);
         });
     } catch (error) {
         showAlert("danger", "Грешка при зареждането на дисциплините.");
     }
 });
-
-// Обработчик за изпращане на формата
 document.getElementById("addQuestionBankForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const selectedDisciplineId = document.getElementById("discipline-select").value;
     const questionBankName = document.getElementById("questionBankName").value.trim();
-
-    // Проверка дали всички полета са попълнени
     if (!selectedDisciplineId || !questionBankName) {
         showAlert("warning", "Попълнете всички полета.");
         return;
     }
 
     try {
-        // Взимаме текущите данни за избраната дисциплина
         const courseRef = doc(db, "courses", selectedDisciplineId);
         const courseSnapshot = await getDoc(courseRef);
 
@@ -70,28 +63,18 @@ document.getElementById("addQuestionBankForm").addEventListener("submit", async 
             showAlert("danger", "Дисциплината не е намерена.");
             return;
         }
-
-        // Взимаме текущите въпросни банки (ако съществуват)
         let courseData = courseSnapshot.data();
         let questionBanks = courseData.questionBanks || [];
-
-        // Добавяме новата банка с въпроси
         const newQuestionBank = {
             name: questionBankName,
-            questions: [] // Празна масивна структура, може да се добавят въпроси по-късно
+            questions: [] 
         };
-
-        // Добавяне на новата банка към съществуващите въпросни банки
         questionBanks.push(newQuestionBank);
-
-        // Обновяваме записа в "courses"
         await updateDoc(courseRef, {
             questionBanks: questionBanks,
         });
 
         showAlert("success",`Банка с въпроси "${questionBankName}" е добавена към ${courseData.disciplineName}`);
-
-        // Презареждане на страницата
         location.reload();
     } catch (error) {
         showAlert("danger","❌ Грешка при запазване на въпросната банка:", error);
